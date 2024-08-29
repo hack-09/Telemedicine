@@ -36,8 +36,9 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     @Override
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
-        holder.dateTextView.setText(appointment.getDate());
-        holder.timeTextView.setText(appointment.getTime());
+        holder.timeTextView.setText(appointment.getSlotTime());
+        holder.doctorNameTextView.setText(appointment.getDoctorName());
+        holder.statusTextView.setText(appointment.getStatus());
 
         holder.itemView.setOnClickListener(v -> listener.onAppointmentAction(appointment, "view"));
         holder.cancelButton.setOnClickListener(v -> listener.onAppointmentAction(appointment, "cancel"));
@@ -49,16 +50,17 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     }
 
     public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
-        TextView dateTextView;
         TextView timeTextView;
+        TextView doctorNameTextView;
+        TextView statusTextView;
         Button cancelButton;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
-            dateTextView = itemView.findViewById(R.id.appointment_date);
             timeTextView = itemView.findViewById(R.id.appointment_time);
+            doctorNameTextView = itemView.findViewById(R.id.appointment_doctor_name);
+            statusTextView = itemView.findViewById(R.id.appointment_status);
             cancelButton = itemView.findViewById(R.id.cancel_button);
         }
     }
 }
-

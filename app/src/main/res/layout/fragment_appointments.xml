@@ -3,53 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <!-- Calendar View -->
-        <CalendarView
-            android:id="@+id/calendarView"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Doctor List (Horizontal Scroll) -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Available Doctors"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            <!-- Calendar View -->
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/doctorRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp"
-            android:scrollbars="horizontal" />
+            <!-- Doctor List (Horizontal Scroll) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available Doctors"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Appointments List -->
-        <TextView
-            android:id="@+id/noAppointmentsText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No appointments available"
-            android:textAlignment="center"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/doctorRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbars="vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/appointmentsRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+            <!-- Appointments List -->
+            <TextView
+                android:id="@+id/noAppointmentsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No appointments available"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:layout_marginBottom="8dp" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/slotsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbars="vertical" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/booked_appointments"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_margin="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/appointmentsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

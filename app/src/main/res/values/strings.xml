@@ -3,4 +3,5 @@
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="navigation_drawer_open" />
     <string name="navigation_drawer_close" />
+    <string name="booked_appointments">Booked Appointments</string>
 </resources>

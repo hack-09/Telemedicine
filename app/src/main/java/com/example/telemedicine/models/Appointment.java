@@ -1,47 +1,60 @@
 package com.example.telemedicine.models;
 
 public class Appointment {
-    private String date;
-    private String time;
-    private Doctor doctor; // Assuming you have a Doctor class
-    private String status; // e.g., "Scheduled", "Cancelled", "Completed"
+    private String doctorId;
+    private String doctorName;
+    private String patientId;
+    private String slotTime;
+    private String status;
 
-    // Constructor
-    public Appointment(String date, String time, Doctor doctor, String status) {
-        this.date = date;
-        this.time = time;
-        this.doctor = doctor;
+    // No-argument constructor
+    public Appointment() {
+    }
+
+    // Constructor with parameters
+    public Appointment(String doctorId, String doctorName, String patientId, String slotTime, String status) {
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
+        this.patientId = patientId;
+        this.slotTime = slotTime;
         this.status = status;
     }
 
-    // Getters
-    public String getDate() {
-        return date;
+    // Getters and Setters
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public String getTime() {
-        return time;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getSlotTime() {
+        return slotTime;
+    }
+
+    public void setSlotTime(String slotTime) {
+        this.slotTime = slotTime;
     }
 
     public String getStatus() {
         return status;
-    }
-
-    // Setters
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public void setStatus(String status) {

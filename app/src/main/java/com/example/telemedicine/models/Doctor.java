@@ -3,15 +3,26 @@ package com.example.telemedicine.models;
 import java.util.List;
 
 public class Doctor {
+    private String id;
     private String name;
     private String specialty;
     private String profilePictureUrl;
 
-    // Constructor
-    public Doctor(String name, String specialty, String profilePictureUrl) {
+    public Doctor(String id, String name, String specialty, String profileImageUrl) {
+        this.id = id;
         this.name = name;
         this.specialty = specialty;
-        this.profilePictureUrl = profilePictureUrl;
+        this.profilePictureUrl = profileImageUrl;
+    }
+
+    // Add getters and setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     // Getters

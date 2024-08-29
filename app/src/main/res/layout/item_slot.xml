@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <Button
+        android:id="@+id/bookSlotButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Slot Time"
+        android:textSize="16sp"
+        android:backgroundTint="?android:attr/colorPrimary"
+        android:textColor="@android:color/white"/>
+</LinearLayout>
