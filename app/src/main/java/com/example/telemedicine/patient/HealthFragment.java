@@ -1,4 +1,4 @@
-package com.example.telemedicine;
+package com.example.telemedicine.patient;
 
 import androidx.fragment.app.Fragment;
 

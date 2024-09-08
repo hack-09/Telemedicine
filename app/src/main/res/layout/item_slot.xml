@@ -13,8 +13,9 @@
         android:id="@+id/bookSlotButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Slot Time"
-        android:textSize="16sp"
         android:backgroundTint="?android:attr/colorPrimary"
-        android:textColor="@android:color/white"/>
+        android:clickable="false"
+        android:text="Slot Time"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 </LinearLayout>

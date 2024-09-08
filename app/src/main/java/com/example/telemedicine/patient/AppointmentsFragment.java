@@ -1,4 +1,4 @@
-package com.example.telemedicine;
+package com.example.telemedicine.patient;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;
 import com.example.telemedicine.models.Slot;

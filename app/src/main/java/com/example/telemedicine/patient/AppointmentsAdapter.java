@@ -1,4 +1,4 @@
-package com.example.telemedicine;
+package com.example.telemedicine.patient;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 
 import java.util.List;

@@ -8,9 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import com.example.telemedicine.patient.AppointmentsFragment;
+import com.example.telemedicine.patient.BillingActivity;
+import com.example.telemedicine.patient.HealthFragment;
+import com.example.telemedicine.patient.HelpActivity;
+import com.example.telemedicine.patient.HomeFragment;
+import com.example.telemedicine.patient.MedicalRecordsActivity;
+import com.example.telemedicine.patient.NotificationsActivity;
+import com.example.telemedicine.patient.ProfileFragment;
+import com.example.telemedicine.patient.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 public class PatientActivity extends AppCompatActivity {
 
