@@ -1,6 +1,7 @@
 package com.example.telemedicine.models;
 
 public class Appointment {
+    private String appointmentId;
     private String doctorId;
     private String doctorName;
     private String patientId;
@@ -12,7 +13,8 @@ public class Appointment {
     }
 
     // Constructor with parameters
-    public Appointment(String doctorId, String doctorName, String patientId, String slotTime, String status) {
+    public Appointment(String appointmentId, String doctorId, String doctorName, String patientId, String slotTime, String status) {
+        this.appointmentId = appointmentId;
         this.doctorId = doctorId;
         this.doctorName = doctorName;
         this.patientId = patientId;
@@ -21,6 +23,9 @@ public class Appointment {
     }
 
     // Getters and Setters
+    public String getAppointmentId() {
+        return appointmentId;
+    }
     public String getDoctorId() {
         return doctorId;
     }
@@ -59,5 +64,9 @@ public class Appointment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setAppointmentId(String id) {
+        this.appointmentId = id;
     }
 }

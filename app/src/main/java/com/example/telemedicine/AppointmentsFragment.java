@@ -1,5 +1,6 @@
 package com.example.telemedicine;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,26 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;
 import com.example.telemedicine.models.Slot;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppointmentsFragment extends Fragment {
+public class AppointmentsFragment extends Fragment implements AppointmentsAdapter.OnAppointmentActionListener {
 
     private CalendarView calendarView;
     private RecyclerView doctorRecyclerView, appointmentsRecyclerView, slotsRecyclerView;
@@ -89,7 +82,6 @@ public class AppointmentsFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String name = document.getString("name");
                             String specialty = document.getString("specialty");
-                            // Assuming 'id' field exists in Firestore
                             String id = document.getId();
                             doctors.add(new Doctor(id, name, specialty, "https://example.com/profile.jpg"));
                         }
@@ -101,8 +93,8 @@ public class AppointmentsFragment extends Fragment {
     }
 
     private void setupAppointmentsList() {
-        appointmentList = new ArrayList<>(); // Initialize with an empty list
-        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(appointmentList, this::onAppointmentAction);
+        appointmentList = new ArrayList<>();
+        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointmentList, this);
         appointmentsRecyclerView.setAdapter(appointmentsAdapter);
 
         fetchAppointmentsFromFirebase(appointments -> {
@@ -124,15 +116,14 @@ public class AppointmentsFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference appointmentsRef = db.collection("appointments");
 
-        // Query for appointments related to a specific doctor or patient (adjust query as necessary)
-        appointmentsRef
-                .whereEqualTo("patientId", userId) // Example: filter by doctorId (change as necessary)
+        appointmentsRef.whereEqualTo("patientId", userId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<Appointment> appointments = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Appointment appointment = document.toObject(Appointment.class);
+                            appointment.setAppointmentId(document.getId()); // Set the document ID as the appointment ID
                             appointments.add(appointment);
                         }
                         listener.onAppointmentsFetched(appointments);
@@ -142,27 +133,23 @@ public class AppointmentsFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onCancelAppointment(Appointment appointment) {
+        cancelAppointment(appointment);
+    }
 
     interface OnAppointmentsFetchedListener {
         void onAppointmentsFetched(List<Appointment> appointments);
     }
 
-
-
-    private List<Appointment> getAppointmentsForToday() {
-        // Dummy implementation, replace with actual Firebase fetching logic
-        return new ArrayList<>();
-    }
-
     private void setupCalendar() {
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            List<Appointment> appointments = getAppointmentsForDate(year, month, dayOfMonth); // Implement actual fetching logic
+            List<Appointment> appointments = getAppointmentsForDate(year, month, dayOfMonth);
             updateAppointmentsList(appointments);
         });
     }
 
     private List<Appointment> getAppointmentsForDate(int year, int month, int dayOfMonth) {
-        // Dummy implementation, replace with actual Firebase fetching logic
         return new ArrayList<>();
     }
 
@@ -170,10 +157,41 @@ public class AppointmentsFragment extends Fragment {
         fetchAvailableSlots(doctor, slots -> showAvailableSlots(slots, doctor));
     }
 
+    private void showAvailableSlots(List<Slot> slots, Doctor doctor) {
+        if (slots.isEmpty()) {
+            Toast.makeText(getActivity(), "No available slots for " + doctor.getName(), Toast.LENGTH_SHORT).show();
+        } else {
+            SlotsAdapter slotsAdapter = new SlotsAdapter(slots, slot -> bookSlot(slot, doctor));
+            slotsRecyclerView.setAdapter(slotsAdapter);
+        }
+    }
+
+    private void bookSlot(Slot slot, Doctor doctor) {
+        // Implement booking logic here, such as saving the appointment to Firebase
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> appointment = new HashMap<>();
+        appointment.put("patientId", userId);
+        appointment.put("doctorId", doctor.getId());
+        appointment.put("doctorName", doctor.getName());
+        appointment.put("slotTime", slot.getTime());
+        appointment.put("status", "Booked");
+
+        db.collection("appointments")
+                .add(appointment)
+                .addOnSuccessListener(documentReference -> {
+                    // Update the slot's booked status
+                    updateSlotStatus(doctor.getId(), slot.getTime(), true);
+                    Toast.makeText(getActivity(), "Appointment booked with " + doctor.getName(), Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Failed to book appointment.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
     interface OnSlotsFetchedListener {
         void onSlotsFetched(List<Slot> slots);
     }
-
 
     private void fetchAvailableSlots(Doctor doctor, OnSlotsFetchedListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -197,11 +215,10 @@ public class AppointmentsFragment extends Fragment {
                                 String time = (String) slotData.get("time");
                                 Boolean isBooked = (Boolean) slotData.get("isBooked");
 
-                                // Only add slots that are not booked
                                 if (isBooked != null && !isBooked) {
                                     Slot slot = new Slot(slotId, date, time, false);
                                     slots.add(slot);
-                                }else {
+                                } else {
                                     Toast.makeText(getActivity(), "No available slots for this doctor.", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -217,97 +234,105 @@ public class AppointmentsFragment extends Fragment {
                 });
     }
 
-
-    private void onAppointmentAction(Appointment appointment, String action) {
-        if ("cancel".equals(action)) {
-            cancelAppointment(appointment);
-        } else if ("reschedule".equals(action)) {
-            rescheduleAppointment(appointment);
-        }
-    }
-
     private void rescheduleAppointment(Appointment appointment) {
         // Implement rescheduling logic here
     }
 
-    private void cancelAppointment(Appointment appointment) {
-        // Implement cancel logic here
+    private void updateSlotStatus(String doctorId, String slotTime, boolean isBooked) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("doctors").document(doctorId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Map<String, Object> availableSlots = (Map<String, Object>) documentSnapshot.get("availableSlots");
+                        if (availableSlots != null) {
+                            for (Map.Entry<String, Object> entry : availableSlots.entrySet()) {
+                                Map<String, Object> slotDetails = (Map<String, Object>) entry.getValue();
+                                if (slotDetails.get("time").equals(slotTime)) {
+                                    String slotId = entry.getKey();
+                                    db.collection("doctors").document(doctorId)
+                                            .update("availableSlots." + slotId + ".isBooked", isBooked)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(getActivity(), "Slot status updated.", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(getActivity(), "Failed to update slot status.", Toast.LENGTH_SHORT).show();
+                                            });
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
     }
+
+    private void cancelAppointment(Appointment appointment) {
+        // Create a confirmation dialog
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Confirm Cancellation")
+                .setMessage("Are you sure you want to cancel your appointment with " + appointment.getDoctorName() + " at " + appointment.getSlotTime() + "?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    // Proceed with cancellation if user confirms
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection("appointments")
+                            .document(appointment.getAppointmentId())
+                            .delete()
+                            .addOnSuccessListener(aVoid -> {
+                                // Update slot status if needed, show success message
+                                updateSlotStatus(appointment.getDoctorId(), appointment.getSlotTime(), false);
+                                Toast.makeText(getActivity(), "Appointment canceled.", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getActivity(), "Failed to cancel appointment.", Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Dismiss the dialog if the user cancels
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+//    public void onAppointmentAction(String action, Appointment appointment) {
+//        switch (action) {
+//            case "reschedule":
+//                // Handle rescheduling logic
+////                showRescheduleDialog(appointment);
+//                break;
+//
+//            case "cancel":
+//                // Show confirmation dialog before canceling the appointment
+//                new AlertDialog.Builder(getActivity())
+//                        .setTitle("Confirm Cancellation")
+//                        .setMessage("Are you sure you want to cancel your appointment with " + appointment.getDoctorName() + " at " + appointment.getSlotTime() + "?")
+//                        .setPositiveButton("Yes", (dialog, which) -> {
+//                            cancelAppointment(appointment);
+//                        })
+//                        .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+//                        .show();
+//                break;
+//
+//            case "viewDetails":
+//                // Navigate to appointment details page
+////                showAppointmentDetails(appointment);
+//                break;
+//
+//            default:
+//                // Handle any other actions if necessary
+//                Toast.makeText(getActivity(), "Unknown action: " + action, Toast.LENGTH_SHORT).show();
+//                break;
+//        }
+//    }
+
 
     private void updateAppointmentsList(List<Appointment> appointments) {
-        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(appointments, this::onAppointmentAction);
+        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointments, this);
         appointmentsRecyclerView.setAdapter(appointmentsAdapter);
-
-        if (appointments == null || appointments.isEmpty()) {
-            noAppointmentsText.setVisibility(View.VISIBLE);
-            appointmentsRecyclerView.setVisibility(View.GONE);
-        } else {
-            noAppointmentsText.setVisibility(View.GONE);
-            appointmentsRecyclerView.setVisibility(View.VISIBLE);
-        }
     }
 
-
-
-    private void showAvailableSlots(List<Slot> slots, Doctor doctor) {
-        if (slots != null && !slots.isEmpty()) {
-            SlotsAdapter slotsAdapter = new SlotsAdapter(slots, slot -> bookAppointment(doctor, slot));
-            slotsRecyclerView.setAdapter(slotsAdapter);
-            slotsAdapter.notifyDataSetChanged();
-            slotsRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(getActivity(), "No available slots for this doctor.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private void bookAppointment(Doctor doctor, Slot slot) {
-        Log.d("bookAppointment", "Booking appointment for slot: " + slot.getId());
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> appointmentData = new HashMap<>();
-        appointmentData.put("doctorId", doctor.getId());
-        appointmentData.put("doctorName", doctor.getName());
-        appointmentData.put("slotTime", slot.getTime());
-        appointmentData.put("patientId", userId);
-        appointmentData.put("status", "Booked");
-
-        db.collection("appointments").add(appointmentData)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d("bookAppointment", "Appointment booked successfully!");
-                    Toast.makeText(getActivity(), "Appointment booked successfully!", Toast.LENGTH_SHORT).show();
-                    updateSlotStatus(doctor, slot);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("bookAppointment", "Failed to book appointment.", e);
-                    Toast.makeText(getActivity(), "Failed to book appointment.", Toast.LENGTH_SHORT).show();
-                });
-    }
-
-
-    private void updateSlotStatus(Doctor doctor, Slot slot) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        String slotId = slot.getId(); // Ensure Slot class has getId() method returning slot ID
-
-        // Use doctor ID and slot ID to locate the correct field in the Map
-        String slotFieldPath = "availableSlots." + slotId + ".isBooked";
-
-        db.collection("doctors").document(doctor.getId())
-                .update(slotFieldPath, true)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getActivity(), "Slot status updated.", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getActivity(), "Failed to update slot status.", Toast.LENGTH_SHORT).show();
-                });
-    }
-
-
-
-    // Define interface for fetching doctors callback
-    private interface OnDoctorsFetchedListener {
+    // Define any additional listeners or interfaces here
+    interface OnDoctorsFetchedListener {
         void onDoctorsFetched(List<Doctor> doctors);
     }
 }

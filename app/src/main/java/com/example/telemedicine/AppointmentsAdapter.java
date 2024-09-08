@@ -1,5 +1,6 @@
 package com.example.telemedicine;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,35 +14,37 @@ import com.example.telemedicine.models.Appointment;
 
 import java.util.List;
 
-public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapter.AppointmentViewHolder> {
+public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapter.ViewHolder> {
+
+    private Context context;
     private List<Appointment> appointments;
     private OnAppointmentActionListener listener;
 
     public interface OnAppointmentActionListener {
-        void onAppointmentAction(Appointment appointment, String action);
+        void onCancelAppointment(Appointment appointment);
     }
 
-    public AppointmentsAdapter(List<Appointment> appointments, OnAppointmentActionListener listener) {
+    public AppointmentsAdapter(Context context, List<Appointment> appointments, OnAppointmentActionListener listener) {
+        this.context = context;
         this.appointments = appointments;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public AppointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_appointment, parent, false);
-        return new AppointmentViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_appointment, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
-        holder.timeTextView.setText(appointment.getSlotTime());
-        holder.doctorNameTextView.setText(appointment.getDoctorName());
-        holder.statusTextView.setText(appointment.getStatus());
 
-        holder.itemView.setOnClickListener(v -> listener.onAppointmentAction(appointment, "view"));
-        holder.cancelButton.setOnClickListener(v -> listener.onAppointmentAction(appointment, "cancel"));
+        holder.doctorName.setText(appointment.getDoctorName());
+        holder.slotTime.setText(appointment.getSlotTime());
+
+        holder.cancelButton.setOnClickListener(v -> listener.onCancelAppointment(appointment));
     }
 
     @Override
@@ -49,18 +52,15 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         return appointments.size();
     }
 
-    public static class AppointmentViewHolder extends RecyclerView.ViewHolder {
-        TextView timeTextView;
-        TextView doctorNameTextView;
-        TextView statusTextView;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView doctorName, slotTime;
         Button cancelButton;
 
-        public AppointmentViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            timeTextView = itemView.findViewById(R.id.appointment_time);
-            doctorNameTextView = itemView.findViewById(R.id.appointment_doctor_name);
-            statusTextView = itemView.findViewById(R.id.appointment_status);
-            cancelButton = itemView.findViewById(R.id.cancel_button);
+            doctorName = itemView.findViewById(R.id.doctorName);
+            slotTime = itemView.findViewById(R.id.slotTime);
+            cancelButton = itemView.findViewById(R.id.cancelButton);
         }
     }
 }

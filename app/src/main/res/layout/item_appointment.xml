@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/appointment_doctor_name"
+            android:id="@+id/doctorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/appointment_time"
+            android:id="@+id/slotTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"
@@ -40,7 +40,7 @@
 
     <!-- Cancel Button -->
     <Button
-        android:id="@+id/cancel_button"
+        android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
