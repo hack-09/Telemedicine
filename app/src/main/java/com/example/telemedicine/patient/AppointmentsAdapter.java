@@ -23,6 +23,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
 
     public interface OnAppointmentActionListener {
         void onCancelAppointment(Appointment appointment);
+        void onJoinConsultation(Appointment appointment);
     }
 
     public AppointmentsAdapter(Context context, List<Appointment> appointments, OnAppointmentActionListener listener) {
@@ -45,6 +46,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         holder.doctorName.setText(appointment.getDoctorName());
         holder.slotTime.setText(appointment.getSlotTime());
 
+        holder.joinButton.setOnClickListener(v -> listener.onJoinConsultation(appointment));
         holder.cancelButton.setOnClickListener(v -> listener.onCancelAppointment(appointment));
     }
 
@@ -55,13 +57,14 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView doctorName, slotTime;
-        Button cancelButton;
+        Button cancelButton, joinButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             doctorName = itemView.findViewById(R.id.doctorName);
             slotTime = itemView.findViewById(R.id.slotTime);
             cancelButton = itemView.findViewById(R.id.cancelButton);
+            joinButton = itemView.findViewById(R.id.joinButton);
         }
     }
 }

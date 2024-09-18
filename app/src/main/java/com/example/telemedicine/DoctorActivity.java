@@ -88,6 +88,8 @@ public class DoctorActivity extends AppCompatActivity {
                     fragment = new PatientProfilesFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_chat) {
                     fragment = new ChatFragment();
+                } else if (item.getItemId() == R.id.bottom_navigation_consultation) {
+                    fragment = new ConsultationFragment();
                 }
 
                 if (fragment != null) {

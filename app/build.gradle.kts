@@ -45,4 +45,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("org.jitsi.react:jitsi-meet-sdk:10.1.2") { isTransitive = true }
+
+
 }

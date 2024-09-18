@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.telemedicine.ConsultationFragment;
 import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;
@@ -137,6 +138,22 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
     @Override
     public void onCancelAppointment(Appointment appointment) {
         cancelAppointment(appointment);
+    }
+
+    @Override
+    public void onJoinConsultation(Appointment appointment) {
+        // Example of starting the ConsultationFragment with the appointment details
+        Bundle bundle = new Bundle();
+        bundle.putString("appointmentId", appointment.getAppointmentId());
+
+        ConsultationFragment consultationFragment = new ConsultationFragment();
+        consultationFragment.setArguments(bundle);
+
+        // Replace the current fragment with the ConsultationFragment
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main, consultationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     interface OnAppointmentsFetchedListener {
