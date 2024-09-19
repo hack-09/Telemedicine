@@ -21,6 +21,7 @@ import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;
 import com.example.telemedicine.models.Slot;
+import com.example.telemedicine.util.JitsiUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -142,19 +143,40 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
 
     @Override
     public void onJoinConsultation(Appointment appointment) {
-        // Example of starting the ConsultationFragment with the appointment details
-        Bundle bundle = new Bundle();
-        bundle.putString("appointmentId", appointment.getAppointmentId());
-
-        ConsultationFragment consultationFragment = new ConsultationFragment();
-        consultationFragment.setArguments(bundle);
-
-        // Replace the current fragment with the ConsultationFragment
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main, consultationFragment)
-                .addToBackStack(null)
-                .commit();
+        // Fetch appointment details, then start the meeting
+        fetchAppointmentDetails(appointment.getAppointmentId());
     }
+    private void fetchAppointmentDetails(String appointmentId) {
+        if (appointmentId == null || appointmentId.isEmpty()) {
+            Log.e("DoctorAppointments", "Appointment ID is null or empty!");
+            return;
+        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("appointments").document(appointmentId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Retrieve necessary information
+                        String doctorId = documentSnapshot.getString("doctorId");
+                        String patientId = documentSnapshot.getString("patientId");
+
+                        // Ensure the current user is either the patient or the doctor
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if (currentUserId.equals(doctorId) || currentUserId.equals(patientId)) {
+                            // Start the consultation using the appointment ID as the room ID
+                            JitsiUtils.startJitsiMeeting(getContext(), appointmentId);
+                        } else {
+                            Toast.makeText(getContext(), "You do not have permission to join this consultation.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Appointment not found.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error fetching appointment details.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
 
     interface OnAppointmentsFetchedListener {
         void onAppointmentsFetched(List<Appointment> appointments);
@@ -311,38 +333,6 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                 })
                 .show();
     }
-
-//    public void onAppointmentAction(String action, Appointment appointment) {
-//        switch (action) {
-//            case "reschedule":
-//                // Handle rescheduling logic
-////                showRescheduleDialog(appointment);
-//                break;
-//
-//            case "cancel":
-//                // Show confirmation dialog before canceling the appointment
-//                new AlertDialog.Builder(getActivity())
-//                        .setTitle("Confirm Cancellation")
-//                        .setMessage("Are you sure you want to cancel your appointment with " + appointment.getDoctorName() + " at " + appointment.getSlotTime() + "?")
-//                        .setPositiveButton("Yes", (dialog, which) -> {
-//                            cancelAppointment(appointment);
-//                        })
-//                        .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-//                        .show();
-//                break;
-//
-//            case "viewDetails":
-//                // Navigate to appointment details page
-////                showAppointmentDetails(appointment);
-//                break;
-//
-//            default:
-//                // Handle any other actions if necessary
-//                Toast.makeText(getActivity(), "Unknown action: " + action, Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
-
 
     private void updateAppointmentsList(List<Appointment> appointments) {
         AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointments, this);

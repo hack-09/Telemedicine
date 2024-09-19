@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.telemedicine.doctor.ChatFragment;
 import com.example.telemedicine.doctor.ConsultationRemindersFragment;
+import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.doctor.DoctorProfilesFragment;
 import com.example.telemedicine.doctor.GenerateInvoiceFragment;
 import com.example.telemedicine.doctor.ManageAvailabilityFragment;
@@ -75,13 +76,12 @@ public class DoctorActivity extends AppCompatActivity {
         });
 
         // Set up bottom navigation item click listeners
-        // Set up bottom navigation item click listeners
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
                 if (item.getItemId() == R.id.doctor_bottom_navigation_appointments) {
-                    fragment = new AppointmentsFragment();
+                    fragment = new DoctorAppointmentsFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_profiles) {
                     fragment = new DoctorProfilesFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_patient_queue) {
@@ -100,7 +100,7 @@ public class DoctorActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            loadFragment(new AppointmentsFragment()); // Default fragment
+            loadFragment(new DoctorAppointmentsFragment()); // Default fragment
         }
     }
 
