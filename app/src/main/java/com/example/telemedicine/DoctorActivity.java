@@ -27,7 +27,6 @@ public class DoctorActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
 
     @Override
@@ -40,39 +39,35 @@ public class DoctorActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         fragmentManager = getSupportFragmentManager();
 
         // Set up drawer menu item click listeners
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                // Navigation Drawer Item Click Listener
-                if (item.getItemId() == R.id.nav_patient_profiles) {
-                    fragment = new PatientProfilesFragment();
-                } else if (item.getItemId() == R.id.nav_appointments) {
-                    fragment = new AppointmentsFragment();
-                } else if (item.getItemId() == R.id.nav_manage_availability) {
-                    fragment = new ManageAvailabilityFragment();
-                } else if (item.getItemId() == R.id.nav_track_earnings) {
-                    fragment = new TrackEarningsFragment();
-                } else if (item.getItemId() == R.id.nav_generate_invoice) {
-                    fragment = new GenerateInvoiceFragment();
-                } else if (item.getItemId() == R.id.nav_consultation_reminders) {
-                    fragment = new ConsultationRemindersFragment();
-                } else if (item.getItemId() == R.id.nav_patient_messages) {
-                    fragment = new PatientMessagesFragment();
-                }
-
-                if (fragment != null) {
-                    loadFragment(fragment);
-                }
-                drawerLayout.closeDrawer(navigationView);
-                return true;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            Fragment fragment = null;
+            // Navigation Drawer Item Click Listener
+            if (item.getItemId() == R.id.nav_patient_profiles) {
+                fragment = new PatientProfilesFragment();
+            } else if (item.getItemId() == R.id.nav_appointments) {
+                fragment = new AppointmentsFragment();
+            } else if (item.getItemId() == R.id.nav_manage_availability) {
+                fragment = new ManageAvailabilityFragment();
+            } else if (item.getItemId() == R.id.nav_track_earnings) {
+                fragment = new TrackEarningsFragment();
+            } else if (item.getItemId() == R.id.nav_generate_invoice) {
+                fragment = new GenerateInvoiceFragment();
+            } else if (item.getItemId() == R.id.nav_consultation_reminders) {
+                fragment = new ConsultationRemindersFragment();
+            } else if (item.getItemId() == R.id.nav_patient_messages) {
+                fragment = new PatientMessagesFragment();
             }
 
+            if (fragment != null) {
+                loadFragment(fragment);
+            }
+            drawerLayout.closeDrawer(navigationView);
+            return true;
         });
 
         // Set up bottom navigation item click listeners

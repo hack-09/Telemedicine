@@ -8,11 +8,13 @@ import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import java.net.URL;
 
+import timber.log.Timber;
+
 public class JitsiUtils {
 
     public static void startJitsiMeeting(Context context, String roomId) {
         try {
-            Log.i("TAG", "RoomId : "+roomId);
+            Timber.tag("TAG").i("RoomId : %s", roomId);
             URL serverURL = new URL("https://meet.jit.si"); // or your own Jitsi server
             JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
                     .setServerURL(serverURL)
