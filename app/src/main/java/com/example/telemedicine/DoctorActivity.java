@@ -48,7 +48,7 @@ public class DoctorActivity extends AppCompatActivity {
             Fragment fragment = null;
             // Navigation Drawer Item Click Listener
             if (item.getItemId() == R.id.nav_patient_profiles) {
-                fragment = new PatientProfilesFragment();
+                fragment = new AppointmentsFragment();
             } else if (item.getItemId() == R.id.nav_appointments) {
                 fragment = new AppointmentsFragment();
             } else if (item.getItemId() == R.id.nav_manage_availability) {
@@ -80,7 +80,7 @@ public class DoctorActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.bottom_navigation_profiles) {
                     fragment = new DoctorProfilesFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_patient_queue) {
-                    fragment = new PatientProfilesFragment();
+                    fragment = new AppointmentsFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_chat) {
                     fragment = new ChatFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_consultation) {

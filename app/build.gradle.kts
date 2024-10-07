@@ -30,7 +30,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        dataBinding = true
+    }
 }
+
 
 dependencies {
 
@@ -41,11 +45,21 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
+    implementation(libs.mediarouter)
+    implementation(libs.recyclerview)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.testng)
     androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.testng)
+    androidTestImplementation(libs.junit.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation("org.jitsi.react:jitsi-meet-sdk:10.1.2") { isTransitive = true }
-
+    implementation ("com.guolindev.permissionx:permissionx:1.6.1")
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity:16.0.0")
 
 }

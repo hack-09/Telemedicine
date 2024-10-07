@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        jcenter()
     }
 }
 dependencyResolutionManagement {
@@ -21,6 +22,9 @@ dependencyResolutionManagement {
         }
         maven {
             url = uri("https://maven.google.com")
+        }
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
     }
 }

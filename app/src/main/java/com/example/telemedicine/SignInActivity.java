@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,6 +31,8 @@ public class SignInActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private RadioGroup userTypeRadioGroup;
     private Button signInButton, registerButton;
+    private ProgressBar progressBar;
+    private LinearLayout loginFormLayout, loadingLayout;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -42,46 +46,44 @@ public class SignInActivity extends AppCompatActivity {
         userTypeRadioGroup = findViewById(R.id.userTypeRadioGroup);
         signInButton = findViewById(R.id.signInButton);
         registerButton = findViewById(R.id.registerButton);
+        progressBar = findViewById(R.id.progressBar);
+        loginFormLayout = findViewById(R.id.loginFormLayout);
+        loadingLayout = findViewById(R.id.loadingLayout);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // User is signed in, check their user type and redirect
+            // User is logged in, show the loading layout and fetch user data
+            showLoadingLayout();
             checkUserType(currentUser.getUid());
+        } else {
+            // No user is logged in, show the login form layout
+            showLoginFormLayout();
         }
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signInUser();
-            }
-        });
+        signInButton.setOnClickListener(view -> signInUser());
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerUser();
-            }
-        });
+        registerButton.setOnClickListener(view -> registerUser());
     }
 
     private void signInUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        checkUserType(user.getUid());
-                    }
-                } else {
-                    Toast.makeText(SignInActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+        // Show loading layout when sign-in starts
+        showLoadingLayout();
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    checkUserType(user.getUid());
                 }
+            } else {
+                showLoginFormLayout();
+                Toast.makeText(SignInActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -99,18 +101,19 @@ public class SignInActivity extends AppCompatActivity {
         RadioButton selectedRoleButton = findViewById(selectedRoleId);
         final String userType = selectedRoleButton.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    if (user != null) {
-                        saveUserType(user.getUid(), userType);
-                    }
-                    Toast.makeText(SignInActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SignInActivity.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
+        // Show loading layout when registration starts
+        showLoadingLayout();
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    saveUserType(user.getUid(), userType);
                 }
+                Toast.makeText(SignInActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
+            } else {
+                showLoginFormLayout();
+                Toast.makeText(SignInActivity.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -120,45 +123,42 @@ public class SignInActivity extends AppCompatActivity {
         user.put("userType", userType);
 
         db.collection("users").document(userId).set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        checkUserType(userId);
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    checkUserType(userId);
+                })
+                .addOnFailureListener(e -> {
+                    showLoginFormLayout();
+                    Toast.makeText(SignInActivity.this, "Error saving user type.", Toast.LENGTH_SHORT).show();
                 });
     }
 
     private void checkUserType(String userId) {
         db.collection("users").document(userId).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String userType = documentSnapshot.getString("userType");
-                        if ("Doctor".equals(userType)) {
-                            startActivity(new Intent(SignInActivity.this, DoctorActivity.class));
-                        } else if ("Patient".equals(userType)) {
-                            startActivity(new Intent(SignInActivity.this, PatientActivity.class));
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Unknown user type.", Toast.LENGTH_SHORT).show();
-                        }
-                        finish();
+                .addOnSuccessListener(documentSnapshot -> {
+                    String userType = documentSnapshot.getString("userType");
+                    if ("Doctor".equals(userType)) {
+                        startActivity(new Intent(SignInActivity.this, DoctorActivity.class));
+                    } else if ("Patient".equals(userType)) {
+                        startActivity(new Intent(SignInActivity.this, PatientActivity.class));
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Unknown user type.", Toast.LENGTH_SHORT).show();
                     }
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    showLoginFormLayout();
+                    Toast.makeText(SignInActivity.this, "Failed to check user type.", Toast.LENGTH_SHORT).show();
                 });
     }
 
-    // New method to handle the case where a patient wants to register as a doctor
-    private void registerAsDoctor(String userId) {
-        Map<String, Object> userUpdates = new HashMap<>();
-        userUpdates.put("userType", "Doctor");
+    // Utility methods to show or hide layouts
+    private void showLoadingLayout() {
+        loadingLayout.setVisibility(View.VISIBLE);
+        loginFormLayout.setVisibility(View.GONE);
+    }
 
-        db.collection("users").document(userId).update(userUpdates)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SignInActivity.this, "Registered as Doctor successfully.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignInActivity.this, DoctorActivity.class));
-                        finish();
-                    }
-                });
+    private void showLoginFormLayout() {
+        loadingLayout.setVisibility(View.GONE);
+        loginFormLayout.setVisibility(View.VISIBLE);
     }
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
 import com.example.telemedicine.patient.BillingActivity;
 import com.example.telemedicine.patient.HealthFragment;
@@ -18,6 +19,7 @@ import com.example.telemedicine.patient.MedicalRecordsActivity;
 import com.example.telemedicine.patient.NotificationsActivity;
 import com.example.telemedicine.patient.ProfileFragment;
 import com.example.telemedicine.patient.SettingsActivity;
+import com.example.telemedicine.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -58,6 +60,8 @@ public class PatientActivity extends AppCompatActivity {
                     return true;
                 }
 
+
+
                 return false;
             }
 
@@ -84,6 +88,10 @@ public class PatientActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (savedInstanceState == null) {
+            loadFragment(new AppointmentsFragment()); // Default fragment
+        }
     }
 
     private void loadFragment(Fragment fragment) {

@@ -1,6 +1,7 @@
 package com.example.telemedicine.patient;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;
 import com.example.telemedicine.models.Slot;
+import com.example.telemedicine.ui.LoginActivity;
 import com.example.telemedicine.util.JitsiUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -139,6 +141,11 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
     @Override
     public void onCancelAppointment(Appointment appointment) {
         cancelAppointment(appointment);
+    }
+
+    public void onVedioCall(Appointment appointment){
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override

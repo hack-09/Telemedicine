@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".doctor.DoctorRecordsActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Medical Records"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints" />
+
+    <!-- Navigation Buttons -->
+    <LinearLayout
+        android:id="@+id/navLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <Button
+            android:id="@+id/btnPrescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prescription" />
+
+        <Button
+            android:id="@+id/btnDocuments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documents" />
+    </LinearLayout>
+
+    <!-- Prescription Layout -->
+    <LinearLayout
+        android:id="@+id/prescriptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/navLayout">
+
+        <!-- Prescription RecyclerView -->
+        <TextView
+            android:id="@+id/prescriptionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prescriptions"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/prescriptionsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:scrollbars="vertical" />
+
+        <!-- Prescription Upload Button (Doctor only) -->
+        <Button
+            android:id="@+id/uploadPrescriptionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Prescription"
+            android:layout_gravity="center"
+            android:visibility="visible" /> <!-- Visible only for doctors -->
+    </LinearLayout>
+
+    <!-- Documents Layout -->
+    <LinearLayout
+        android:id="@+id/documentsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/navLayout">
+
+        <TextView
+            android:id="@+id/documentsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documents"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/documentsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

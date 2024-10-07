@@ -2,13 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/telemedicine_tag"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/telemedicine_tag"
         android:supportsRtl="true"
         android:theme="@style/Theme.Telemedicine"
         tools:targetApi="31">
@@ -22,8 +35,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DoctorActivity"></activity>
-        <activity android:name=".PatientActivity"></activity>
+        <activity android:name="com.example.telemedicine.ui.LoginActivity" />
+        <activity android:name="com.example.telemedicine.ui.CallActivity" android:exported="true"/>
+        <activity android:name=".DoctorActivity" />
+        <activity android:name=".PatientActivity" />
+        <activity android:name=".patient.MedicalRecordsActivity" />
+        <activity android:name=".doctor.DoctorRecordsActivity" />
 
     </application>
 

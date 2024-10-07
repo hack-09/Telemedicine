@@ -11,6 +11,12 @@ firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
+webrtcAndroidFramework = "2.11.0"
+testng = "6.9.6"
+junitJunit = "4.12"
+firebaseStorage = "21.0.0"
+mediarouter = "1.7.0"
+recyclerview = "1.3.2"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +29,12 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+webrtc-android-framework = { module = "io.antmedia:webrtc-android-framework", version.ref = "webrtcAndroidFramework" }
+testng = { group = "org.testng", name = "testng", version.ref = "testng" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+mediarouter = { group = "androidx.mediarouter", name = "mediarouter", version.ref = "mediarouter" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

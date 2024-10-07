@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#005D4F"
     android:padding="16dp">
 
+    <!-- Text at the top of the layout -->
     <TextView
         android:id="@+id/textAppointmentInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Appointment info"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonJoinConsultation"
-        android:layout_width="wrap_content"
+    <!-- Horizontal LinearLayout for buttons -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Join"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/textAppointmentInfo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAppointmentInfo" />
-
-    <Button
-        android:id="@+id/buttonViewPatientProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textAppointmentInfo" />
+        android:layout_marginTop="16dp">
+
+        <!-- Join Consultation Button -->
+        <Button
+            android:id="@+id/buttonJoinConsultation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#0DFFFFFF"
+            android:text="Consult"
+            android:textColor="#EFE8E8"
+            android:textSize="12dp"
+            app:icon="@drawable/consulting"
+            app:iconGravity="textTop"
+            app:iconPadding="0dp"
+            app:iconSize="28dp" />
+
+        <!-- Join Call Button -->
+        <Button
+            android:id="@+id/joinCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#0DFFFFFF"
+            android:text="Vedio"
+            android:textColor="#EFE8E8"
+            android:textSize="10dp"
+            app:icon="@drawable/ic_baseline_videocam_24"
+            app:iconGravity="textTop"
+            app:iconPadding="0dp"
+            app:iconSize="28dp" />
+
+        <Button
+            android:id="@+id/buttonViewPatientProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="View Profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonContainer" />
+    </LinearLayout>
+
+    <!-- View Profile Button -->
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

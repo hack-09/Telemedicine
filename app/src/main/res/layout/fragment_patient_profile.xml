@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Patient's Picture -->
+            <ImageView
+                android:id="@+id/patientProfileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/profile"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Patient Profile Image" />
+
+            <!-- Patient's Name -->
+            <TextView
+                android:id="@+id/patientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Patient's ID -->
+            <TextView
+                android:id="@+id/patientId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient ID"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Patient's Details Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient Details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/patientAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age: "
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/patientGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender: "
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/patientMedicalHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medical History: "
+                android:layout_marginBottom="4dp" />
+
+            <!-- Button to view medical records -->
+            <Button
+                android:id="@+id/viewMedicalRecordsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Medical Records"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

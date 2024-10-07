@@ -1,5 +1,6 @@
 package com.example.telemedicine.doctor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
+import com.example.telemedicine.ui.LoginActivity;
 import com.example.telemedicine.util.JitsiUtils;
-import com.google.android.exoplayer2.util.Log;
+//import com.google.android.exoplayer2.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -72,7 +74,7 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
                             Toast.makeText(getContext(), "No appointments found", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Log.e("DoctorAppointments", "Error getting appointments", task.getException());
+//                        Log.e("DoctorAppointments", "Error getting appointments", task.getException());
                         Toast.makeText(getContext(), "Failed to load appointments", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -83,17 +85,59 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
         // Start Jitsi meeting with the roomId from the appointment (e.g., appointmentId)
         String roomId = appointment.getAppointmentId();
         if (roomId == null || roomId.isEmpty()) {
-            Log.e("DoctorAppointments", "Appointment ID is null or empty!");
+//            Log.e("DoctorAppointments", "Appointment ID is null or empty!");
             return;
         }
         JitsiUtils.startJitsiMeeting(getContext(), roomId);
     }
 
+    public void onVedioCall(Appointment appointment){
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+//    @Override
+//    public void onJoinConsultation(Appointment appointment) {
+//        // Start the call when Join button is clicked
+//        String appointmentId = appointment.getAppointmentId();
+//        String doctorId = appointment.getDoctorId();
+//        String patientId = appointment.getPatientId();
+//
+//        if (appointmentId != null && doctorId != null && patientId != null) {
+//            // Start CallActivity and pass patientId and doctorId
+//            Intent intent = new Intent(getContext(), CallActivity.class);
+//            intent.putExtra("doctorId", doctorId);
+//            intent.putExtra("patientId", patientId);
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(getContext(), "Invalid appointment data", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private void startConsultation(String appointmentId) {
+//        // This will start the WebRTC flow between doctor and patient using the appointmentId
+//        Intent intent = new Intent(getContext(), CallActivity.class);
+//        intent.putExtra("appointmentId", appointmentId); // Pass the appointmentId to the CallActivity
+//        startActivity(intent);
+//    }
+
+
     @Override
     public void onViewPatientProfile(Appointment appointment) {
-        // Handle viewing the patient's profile based on the appointment's patientId
-        Toast.makeText(getContext(), "Viewing profile for: " + appointment.getPatientName(), Toast.LENGTH_SHORT).show();
+        String patientId = appointment.getPatientId(); // Ensure this ID is retrieved correctly.
+        if(patientId!= null){
+            Fragment patientProfileFragment = new PatientProfilesFragment(patientId);
 
-        // TODO: Implement navigation to the patient's profile fragment
+            // Replace the current fragment with the PatientProfileFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, patientProfileFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else{
+            Toast.makeText(getContext(), "Error loading patient details", Toast.LENGTH_SHORT).show();
+        }
+
     }
+
 }

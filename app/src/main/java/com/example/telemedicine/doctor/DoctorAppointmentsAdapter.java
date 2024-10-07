@@ -3,6 +3,7 @@ package com.example.telemedicine.doctor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ public class DoctorAppointmentsAdapter extends RecyclerView.Adapter<DoctorAppoin
     public interface OnDoctorAppointmentActionListener {
         void onJoinConsultation(Appointment appointment);
         void onViewPatientProfile(Appointment appointment);
+        void onVedioCall(Appointment appointment);
     }
 
     public DoctorAppointmentsAdapter(List<Appointment> appointments, OnDoctorAppointmentActionListener listener) {
@@ -48,13 +50,14 @@ public class DoctorAppointmentsAdapter extends RecyclerView.Adapter<DoctorAppoin
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView appointmentInfo;
-        private TextView joinButton;
+        private Button joinButton, vedioCallBtn;
         private TextView viewProfileButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             appointmentInfo = itemView.findViewById(R.id.textAppointmentInfo);
             joinButton = itemView.findViewById(R.id.buttonJoinConsultation);
+            vedioCallBtn = itemView.findViewById(R.id.joinCall);
             viewProfileButton = itemView.findViewById(R.id.buttonViewPatientProfile);
         }
 
@@ -67,6 +70,7 @@ public class DoctorAppointmentsAdapter extends RecyclerView.Adapter<DoctorAppoin
             appointmentInfo.setText("Appointment with " + patientName + " at " + slotTime);
 
             joinButton.setOnClickListener(v -> listener.onJoinConsultation(appointment));
+            vedioCallBtn.setOnClickListener(v -> listener.onVedioCall(appointment));
             viewProfileButton.setOnClickListener(v -> listener.onViewPatientProfile(appointment));
         }
 

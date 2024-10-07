@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
@@ -41,16 +42,39 @@
     <!-- Cancel Button -->
     <Button
         android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Cancel"
-        android:textColor="@android:color/holo_red_dark" />
+        android:backgroundTint="#0DFFFFFF"
+        android:textColor="@android:color/holo_red_dark"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="24dp"
+        app:iconTint="#F60707" />
     <Button
         android:id="@+id/joinButton"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Join"
-        android:textColor="@android:color/holo_red_dark" />
+        android:backgroundTint="#0DFFFFFF"
+        android:textColor="#EFE8E8"
+        app:icon="@drawable/consulting"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="28dp"/>
+
+    <Button
+        android:id="@+id/joinCall"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="#0DFFFFFF"
+        android:textColor="#EFE8E8"
+        app:icon="@drawable/ic_baseline_videocam_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="28dp"/>
+
+
 </LinearLayout>

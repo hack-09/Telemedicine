@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="#5A6268"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Document name -->
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Document Name"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Document upload date -->
+    <TextView
+        android:id="@+id/uploadDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Uploaded on: Date"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <!-- View and Delete buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <!-- View button -->
+        <Button
+            android:id="@+id/viewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:text="View"
+            android:textColor="@android:color/white" />
+
+        <!-- Delete button -->
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Delete"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</LinearLayout>
