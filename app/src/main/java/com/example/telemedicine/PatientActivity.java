@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.telemedicine.chat.ChatListFragment;
 import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
 import com.example.telemedicine.patient.BillingActivity;
@@ -49,8 +50,8 @@ public class PatientActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_appointments) {
                     loadFragment(new AppointmentsFragment());
                     return true;
-                } else if (itemId == R.id.nav_consultation) {
-                    loadFragment(new ConsultationFragment());
+                } else if (itemId == R.id.nav_chat) {
+                    loadFragment(new ChatListFragment());
                     return true;
                 } else if (itemId == R.id.nav_health) {
                     loadFragment(new HealthFragment());

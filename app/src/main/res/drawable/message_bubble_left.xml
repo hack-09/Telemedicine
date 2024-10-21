@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ffffff" /> <!-- Bubble background color -->
+    <corners android:radius="12dp" />  <!-- Rounded corners -->
+    <padding android:left="8dp" android:top="8dp" android:right="16dp" android:bottom="8dp" />
+
+    <!-- Add a triangle for the pointer -->
+    <path android:pathData="M 0 0 L 20 0 L 10 20 Z"
+        android:fillColor="#ffffff"
+        android:layout_gravity="left" />
+</shape>

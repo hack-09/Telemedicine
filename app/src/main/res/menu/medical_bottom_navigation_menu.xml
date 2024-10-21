@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_prescription"
+        android:icon="@drawable/bill"
+        android:title="Prescription" />
+
+    <item
+        android:id="@+id/navigation_documents"
+        android:icon="@drawable/medicalrecord"
+        android:title="Documents" />
+</menu>

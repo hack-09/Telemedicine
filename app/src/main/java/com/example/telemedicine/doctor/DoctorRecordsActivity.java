@@ -18,6 +18,7 @@ import com.example.telemedicine.models.Document;
 import com.example.telemedicine.models.Prescription;
 import com.example.telemedicine.patient.DocumentAdapter;
 import com.example.telemedicine.patient.PrescriptionAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,7 +39,7 @@ public class DoctorRecordsActivity extends AppCompatActivity {
     private DocumentAdapter documentAdapter;
     private List<Prescription> prescriptionList = new ArrayList<>();
     private List<Document> documentList = new ArrayList<>();
-    private Button btnPrescription, btnDocuments, uploadPrescriptionButton;
+    private Button uploadPrescriptionButton;
     private String userId, patientId;
     private View prescriptionLayout, documentsLayout;
     private static final int REQUEST_CODE_SELECT_PRESCRIPTION = 1002;
@@ -48,9 +49,6 @@ public class DoctorRecordsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_records);
 
-
-        btnPrescription = findViewById(R.id.btnPrescription);
-        btnDocuments = findViewById(R.id.btnDocuments);
         prescriptionLayout = findViewById(R.id.prescriptionLayout);
         documentsLayout = findViewById(R.id.documentsLayout);
         prescriptionsRecyclerView = findViewById(R.id.prescriptionsRecyclerView);
@@ -73,14 +71,23 @@ public class DoctorRecordsActivity extends AppCompatActivity {
         fetchPrescriptions();
         fetchPatientDocuments();
 
-        btnPrescription.setOnClickListener(v -> {
-            prescriptionLayout.setVisibility(View.VISIBLE);
-            documentsLayout.setVisibility(View.GONE);
-        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();  // Get the selected item ID
 
-        btnDocuments.setOnClickListener(v -> {
-            documentsLayout.setVisibility(View.VISIBLE);
-            prescriptionLayout.setVisibility(View.GONE);
+            if (itemId == R.id.navigation_prescription) {
+                prescriptionLayout.setVisibility(View.VISIBLE);
+                documentsLayout.setVisibility(View.GONE);
+                return true;
+
+
+            } else if (itemId == R.id.navigation_documents) {
+                documentsLayout.setVisibility(View.VISIBLE);
+                prescriptionLayout.setVisibility(View.GONE);
+                return true;
+            }
+
+            return false;  // Return false if none of the items match
         });
 
         uploadPrescriptionButton.setOnClickListener(v -> {
@@ -175,7 +182,6 @@ public class DoctorRecordsActivity extends AppCompatActivity {
                     .addOnSuccessListener(taskSnapshot -> {
                         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             savePrescriptionMetadata(uri.toString(), prescriptionType);
-                            Toast.makeText(this, "Prescription uploaded successfully", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {
                             Log.e("Upload", "Failed to retrieve download URL", e);
                         });
@@ -191,9 +197,10 @@ public class DoctorRecordsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> prescriptionData = new HashMap<>();
         prescriptionData.put("doctorId", userId);
-        prescriptionData.put("fileUrl", fileUrl);
-        prescriptionData.put("prescriptionType", prescriptionType);
-        prescriptionData.put("uploadDate", new Date());
+        prescriptionData.put("patientId", patientId);
+        prescriptionData.put("prescriptionUrl", fileUrl);
+        prescriptionData.put("notes", "NULL");
+        prescriptionData.put("prescriptionDate", new Date());
 
         db.collection("prescriptions").add(prescriptionData)
                 .addOnSuccessListener(documentReference -> {

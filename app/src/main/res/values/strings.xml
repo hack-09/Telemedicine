@@ -4,4 +4,5 @@
     <string name="navigation_drawer_open" />
     <string name="navigation_drawer_close" />
     <string name="booked_appointments">Booked Appointments</string>
+    <string name="type_a_message">Type a message</string>
 </resources>

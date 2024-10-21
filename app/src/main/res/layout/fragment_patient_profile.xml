@@ -33,16 +33,6 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
-            <!-- Patient's ID -->
-            <TextView
-                android:id="@+id/patientId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Patient ID"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Patient's Details Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,6 +69,13 @@
                 android:layout_height="wrap_content"
                 android:text="View Medical Records"
                 android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/chatButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chat"
+                android:onClick="startChatWithPatient" />
 
         </LinearLayout>
     </ScrollView>

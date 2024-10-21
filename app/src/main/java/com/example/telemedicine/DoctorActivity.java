@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.telemedicine.doctor.ChatFragment;
+import com.example.telemedicine.chat.ChatFragment;
+import com.example.telemedicine.chat.ChatListFragment;
 import com.example.telemedicine.doctor.ConsultationRemindersFragment;
 import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.doctor.DoctorProfilesFragment;
 import com.example.telemedicine.doctor.GenerateInvoiceFragment;
 import com.example.telemedicine.doctor.ManageAvailabilityFragment;
 import com.example.telemedicine.doctor.PatientMessagesFragment;
-import com.example.telemedicine.doctor.PatientProfilesFragment;
 import com.example.telemedicine.doctor.TrackEarningsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -82,7 +82,7 @@ public class DoctorActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.bottom_navigation_patient_queue) {
                     fragment = new AppointmentsFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_chat) {
-                    fragment = new ChatFragment();
+                    fragment = new ChatListFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_consultation) {
                     fragment = new ConsultationFragment();
                 }

@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.telemedicine.R;
 import com.example.telemedicine.models.Document;
 import com.example.telemedicine.models.Prescription;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,6 +34,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.view.MenuItem;
+import com.example.telemedicine.R;
+
 
 public class MedicalRecordsActivity extends AppCompatActivity {
 
@@ -39,7 +45,7 @@ public class MedicalRecordsActivity extends AppCompatActivity {
     private DocumentAdapter documentAdapter;
     private List<Prescription> prescriptionList = new ArrayList<>();
     private List<Document> documentList = new ArrayList<>();
-    private Button btnPrescription, btnDocuments, uploadDocumentButton;
+    private Button uploadDocumentButton;
     private String userId;
     private View prescriptionLayout, documentsLayout;
     private static final int REQUEST_CODE_SELECT_DOCUMENT = 1001;
@@ -49,8 +55,6 @@ public class MedicalRecordsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_records);
 
-        btnPrescription = findViewById(R.id.btnPrescription);
-        btnDocuments = findViewById(R.id.btnDocuments);
         prescriptionLayout = findViewById(R.id.prescriptionLayout);
         documentsLayout = findViewById(R.id.documentsLayout);
         prescriptionsRecyclerView = findViewById(R.id.prescriptionsRecyclerView);
@@ -71,15 +75,25 @@ public class MedicalRecordsActivity extends AppCompatActivity {
         fetchPrescriptions();
         fetchDocuments();
 
-        btnPrescription.setOnClickListener(v -> {
-            prescriptionLayout.setVisibility(View.VISIBLE);
-            documentsLayout.setVisibility(View.GONE);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();  // Get the selected item ID
+
+            if (itemId == R.id.navigation_prescription) {
+                prescriptionLayout.setVisibility(View.VISIBLE);
+                documentsLayout.setVisibility(View.GONE);
+                return true;
+
+
+            } else if (itemId == R.id.navigation_documents) {
+                documentsLayout.setVisibility(View.VISIBLE);
+                prescriptionLayout.setVisibility(View.GONE);
+                return true;
+            }
+
+            return false;  // Return false if none of the items match
         });
 
-        btnDocuments.setOnClickListener(v -> {
-            documentsLayout.setVisibility(View.VISIBLE);
-            prescriptionLayout.setVisibility(View.GONE);
-        });
 
         uploadDocumentButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -128,12 +142,20 @@ public class MedicalRecordsActivity extends AppCompatActivity {
 
     private void fetchDoctorName(Prescription prescription, List<Prescription> prescriptionList) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("appointments")
-                .document(prescription.getAppointmentId())
+
+        // Use doctorId to fetch doctor details directly from the doctors collection
+        String doctorId = prescription.getDoctorId();
+        if (doctorId == null) {
+            Log.e("DoctorName", "Doctor ID is null. Cannot fetch doctor details.");
+            return;
+        }
+
+        db.collection("doctors")
+                .document(doctorId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        String doctorName = documentSnapshot.getString("doctorName");
+                        String doctorName = documentSnapshot.getString("name");
                         prescription.setDoctorName(doctorName);  // Set the doctor name in the prescription
                         prescriptionList.add(prescription);      // Add prescription after setting the name
                         updatePrescriptionList(prescriptionList); // Update UI after setting name
@@ -145,7 +167,6 @@ public class MedicalRecordsActivity extends AppCompatActivity {
                     Log.e("DoctorName", "Error getting doctor name", e);
                 });
     }
-
 
     private void updatePrescriptionList(List<Prescription> prescriptions) {
         if (prescriptions != null && !prescriptions.isEmpty()) {
