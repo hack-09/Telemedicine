@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="2dp"
-    android:background="#35781C"
+    android:background="@drawable/bg_edit_text"
     android:backgroundTint="#007A49"
     android:orientation="horizontal"
     android:padding="16dp">

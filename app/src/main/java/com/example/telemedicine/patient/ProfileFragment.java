@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.telemedicine.R;
-import com.example.telemedicine.SignInActivity;
+import com.example.telemedicine.authentication.SignInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -54,8 +54,8 @@ public class ProfileFragment extends Fragment {
         if (currentUser != null) {
             profileName.setText(currentUser.getDisplayName());
             profileEmail.setText(currentUser.getEmail());
-            // Load profile image using a library like Picasso
-            Picasso.get().load(currentUser.getPhotoUrl()).into(profileImage);
+            profileImage.setImageURI(currentUser.getPhotoUrl());
+//            Picasso.get().load(currentUser.getPhotoUrl()).into(profileImage);
         }
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {

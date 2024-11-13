@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ public class ChatListFragment extends Fragment {
     private List<String> chatParticipants;
     private FirebaseFirestore db;
     private String currentUserId, userType;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -31,6 +33,7 @@ public class ChatListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
         db = FirebaseFirestore.getInstance();
+        progressBar = view.findViewById(R.id.progressBar);  // Initialize ProgressBar
         chatListRecyclerView = view.findViewById(R.id.chatRecyclerView);
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         chatParticipants = new ArrayList<>();
@@ -63,6 +66,12 @@ public class ChatListFragment extends Fragment {
                         Log.e("ChatListFragment", "Error getting documents: ", task.getException());
                         Toast.makeText(getContext(), "Failed to load chat list", Toast.LENGTH_SHORT).show();
                     }
+                    progressBar.setVisibility(View.GONE);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error fetching doctor data.", Toast.LENGTH_SHORT).show();
+                    // Hide the progress bar if there's an error
+                    progressBar.setVisibility(View.GONE);
                 });
     }
 }

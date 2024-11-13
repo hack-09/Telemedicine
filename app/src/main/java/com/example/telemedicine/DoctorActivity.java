@@ -17,7 +17,9 @@ import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.doctor.DoctorProfilesFragment;
 import com.example.telemedicine.doctor.GenerateInvoiceFragment;
 import com.example.telemedicine.doctor.ManageAvailabilityFragment;
+import com.example.telemedicine.doctor.PatientListFragment;
 import com.example.telemedicine.doctor.PatientMessagesFragment;
+import com.example.telemedicine.doctor.PatientProfilesFragment;
 import com.example.telemedicine.doctor.TrackEarningsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,12 +57,6 @@ public class DoctorActivity extends AppCompatActivity {
                 fragment = new ManageAvailabilityFragment();
             } else if (item.getItemId() == R.id.nav_track_earnings) {
                 fragment = new TrackEarningsFragment();
-            } else if (item.getItemId() == R.id.nav_generate_invoice) {
-                fragment = new GenerateInvoiceFragment();
-            } else if (item.getItemId() == R.id.nav_consultation_reminders) {
-                fragment = new ConsultationRemindersFragment();
-            } else if (item.getItemId() == R.id.nav_patient_messages) {
-                fragment = new PatientMessagesFragment();
             }
 
             if (fragment != null) {
@@ -80,11 +76,9 @@ public class DoctorActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.bottom_navigation_profiles) {
                     fragment = new DoctorProfilesFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_patient_queue) {
-                    fragment = new AppointmentsFragment();
+                    fragment = new PatientListFragment();
                 } else if (item.getItemId() == R.id.bottom_navigation_chat) {
                     fragment = new ChatListFragment();
-                } else if (item.getItemId() == R.id.bottom_navigation_consultation) {
-                    fragment = new ConsultationFragment();
                 }
 
                 if (fragment != null) {

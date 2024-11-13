@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
     private List<Appointment> appointments = new ArrayList<>();;  // Fetch this list from the backend (e.g., Firebase)
     private FirebaseFirestore db;
     private String userId;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -41,6 +43,7 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
         db = FirebaseFirestore.getInstance();
         userId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
 
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.recyclerViewDoctorAppointments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -55,6 +58,8 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
     }
 
     private void loadAppointments() {
+        progressBar.setVisibility(View.VISIBLE);
+        appointments.clear();
         db.collection("appointments")
                 .whereEqualTo("doctorId", userId) // Fetch appointments for the logged-in doctor
                 .get()
@@ -77,15 +82,19 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
 //                        Log.e("DoctorAppointments", "Error getting appointments", task.getException());
                         Toast.makeText(getContext(), "Failed to load appointments", Toast.LENGTH_SHORT).show();
                     }
+                    progressBar.setVisibility(View.GONE);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error fetching data.", Toast.LENGTH_SHORT).show();
+                    // Hide the progress bar if there's an error
+                    progressBar.setVisibility(View.GONE);
                 });
     }
 
 
     public void onJoinConsultation(Appointment appointment) {
-        // Start Jitsi meeting with the roomId from the appointment (e.g., appointmentId)
         String roomId = appointment.getAppointmentId();
         if (roomId == null || roomId.isEmpty()) {
-//            Log.e("DoctorAppointments", "Appointment ID is null or empty!");
             return;
         }
         JitsiUtils.startJitsiMeeting(getContext(), roomId);

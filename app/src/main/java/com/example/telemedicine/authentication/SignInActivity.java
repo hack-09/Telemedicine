@@ -1,4 +1,4 @@
-package com.example.telemedicine;
+package com.example.telemedicine.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,24 +7,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.telemedicine.DoctorActivity;
+import com.example.telemedicine.PatientActivity;
+import com.example.telemedicine.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -65,15 +58,14 @@ public class SignInActivity extends AppCompatActivity {
 
         signInButton.setOnClickListener(view -> signInUser());
 
-        registerButton.setOnClickListener(view -> registerUser());
+        registerButton.setOnClickListener(view -> {
+            startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
+        });
     }
 
     private void signInUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
-
-        // Show loading layout when sign-in starts
-        showLoadingLayout();
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -82,54 +74,9 @@ public class SignInActivity extends AppCompatActivity {
                     checkUserType(user.getUid());
                 }
             } else {
-                showLoginFormLayout();
                 Toast.makeText(SignInActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void registerUser() {
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-        int selectedRoleId = userTypeRadioGroup.getCheckedRadioButtonId();
-
-        if (selectedRoleId == -1) {
-            Toast.makeText(SignInActivity.this, "Please select a role", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        RadioButton selectedRoleButton = findViewById(selectedRoleId);
-        final String userType = selectedRoleButton.getText().toString();
-
-        // Show loading layout when registration starts
-        showLoadingLayout();
-
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    saveUserType(user.getUid(), userType);
-                }
-                Toast.makeText(SignInActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
-            } else {
-                showLoginFormLayout();
-                Toast.makeText(SignInActivity.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void saveUserType(String userId, String userType) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("userType", userType);
-
-        db.collection("users").document(userId).set(user)
-                .addOnSuccessListener(aVoid -> {
-                    checkUserType(userId);
-                })
-                .addOnFailureListener(e -> {
-                    showLoginFormLayout();
-                    Toast.makeText(SignInActivity.this, "Error saving user type.", Toast.LENGTH_SHORT).show();
-                });
     }
 
     private void checkUserType(String userId) {
@@ -146,7 +93,6 @@ public class SignInActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    showLoginFormLayout();
                     Toast.makeText(SignInActivity.this, "Failed to check user type.", Toast.LENGTH_SHORT).show();
                 });
     }

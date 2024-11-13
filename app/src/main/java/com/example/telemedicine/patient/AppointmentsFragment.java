@@ -88,7 +88,8 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                             String name = document.getString("name");
                             String specialty = document.getString("specialty");
                             String id = document.getId();
-                            doctors.add(new Doctor(id, name, specialty, "https://example.com/profile.jpg"));
+                            String profileurl = document.getString("profileImageUrl");
+                            doctors.add(new Doctor(id, name, specialty, profileurl));
                         }
                         listener.onDoctorsFetched(doctors);
                     } else {
@@ -298,12 +299,14 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                                 Map<String, Object> slotDetails = (Map<String, Object>) entry.getValue();
                                 if (slotDetails.get("time").equals(slotTime)) {
                                     String slotId = entry.getKey();
+                                    Log.e("Firestore", "Slot Id: " + slotId);
                                     db.collection("doctors").document(doctorId)
                                             .update("availableSlots." + slotId + ".isBooked", isBooked)
                                             .addOnSuccessListener(aVoid -> {
                                                 Toast.makeText(getActivity(), "Slot status updated.", Toast.LENGTH_SHORT).show();
                                             })
                                             .addOnFailureListener(e -> {
+                                                Log.e("FirestoreError", "Failed to update slot status: " + e.getMessage());
                                                 Toast.makeText(getActivity(), "Failed to update slot status.", Toast.LENGTH_SHORT).show();
                                             });
                                     break;

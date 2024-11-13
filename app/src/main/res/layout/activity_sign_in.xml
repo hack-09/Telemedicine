@@ -18,8 +18,11 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:textSize="14sp" />
+            android:layout_marginBottom="5dp"
+            android:hint="Email Address"
+            android:ems="10"
+            android:textSize="14sp"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -27,39 +30,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:hint="Password"
+            android:ems="10"
             android:inputType="textPassword"
             android:textSize="14sp" />
-
-        <RadioGroup
-            android:id="@+id/userTypeRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioDoctor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Doctor" />
-
-            <RadioButton
-                android:id="@+id/radioPatient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Patient" />
-        </RadioGroup>
 
         <Button
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In" />
+            android:layout_marginTop="10dp"
+            android:text="Log In" />
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register" />
+            android:layout_marginTop="5dp"
+            android:text="Register as new User" />
     </LinearLayout>
 
     <LinearLayout

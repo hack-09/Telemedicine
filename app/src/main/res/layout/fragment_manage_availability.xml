@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <!-- Calendar Icon at the Top -->
+    <ImageView
+        android:id="@+id/calendarIcon"
+        android:layout_width="154dp"
+        android:layout_height="154dp"
+        android:src="@drawable/calander"
+        android:contentDescription="Calendar Icon" />
+
+    <!-- Date Input with DatePickerDialog -->
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:clickable="true"
+        android:drawableLeft="@android:drawable/ic_menu_today"
+        android:focusable="false"
+        android:hint="Select Date"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#020000"
+        android:textColorLink="#090000" />
+
+    <!-- Time Input with TimePickerDialog -->
+    <EditText
+        android:id="@+id/etTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:clickable="true"
+        android:drawableLeft="@drawable/gph_ic_recent"
+        android:focusable="false"
+        android:hint="Select Time"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#050101" />
+
+    <!-- Save Slot Button -->
+    <Button
+        android:id="@+id/btnSaveSlot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Save Slot"
+        android:backgroundTint="#34A075"
+        android:textColor="#FFFFFF" />
+
+    <!-- Status TextView for feedback -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:layout_marginTop="10dp"
+        android:visibility="gone" />
+
+</LinearLayout>

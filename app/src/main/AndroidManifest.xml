@@ -26,7 +26,7 @@
         android:theme="@style/Theme.Telemedicine"
         tools:targetApi="31">
         <activity
-            android:name=".SignInActivity"
+            android:name=".authentication.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".authentication.RegisterActivity" />
         <activity android:name="com.example.telemedicine.ui.LoginActivity" />
         <activity android:name="com.example.telemedicine.ui.CallActivity" android:exported="true"/>
         <activity android:name=".DoctorActivity" />

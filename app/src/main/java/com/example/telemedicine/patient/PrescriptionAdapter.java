@@ -1,6 +1,8 @@
 package com.example.telemedicine.patient;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +48,9 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         holder.downloadButton.setOnClickListener(v -> {
             // Handle download functionality
             String url = prescription.getPrescriptionUrl();
-            downloadFile(context, url, prescription.getDoctorName() + "_prescription.pdf");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            context.startActivity(intent);
         });
     }
 

@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,9 +97,9 @@ public class ChatFragment extends Fragment {
                     if (documentSnapshot.exists()) {
                         String participantName = documentSnapshot.getString("name");
                         if (participantName != null) {
-                            chatHeading.setText("Chat with " + participantName); // Set the participant's name as the title
+                            chatHeading.setText(participantName);
                         } else {
-                            chatHeading.setText("Chat");
+                            chatHeading.setText("Chat with Patient");
                         }
                     }
                 })
@@ -183,7 +184,6 @@ public class ChatFragment extends Fragment {
 
     private void fetchMessages() {
         if (chatId != null) {
-            messageList.clear();
             db.collection("chats").document(chatId).collection("messages")
                     .orderBy("timestamp")
                     .addSnapshotListener((querySnapshot, e) -> {
