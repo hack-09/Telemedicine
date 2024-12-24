@@ -7,12 +7,14 @@ public class Doctor {
     private String name;
     private String specialty;
     private String profilePictureUrl;
+    private String fees;
 
-    public Doctor(String id, String name, String specialty, String profileImageUrl) {
+    public Doctor(String id, String name, String specialty, String profileImageUrl, String fees) {
         this.id = id;
         this.name = name;
         this.specialty = specialty;
         this.profilePictureUrl = profileImageUrl;
+        this.fees = fees;
     }
 
     // Add getters and setters
@@ -51,4 +53,9 @@ public class Doctor {
         this.profilePictureUrl = profilePictureUrl;
     }
 
+    public String getFees(){ return fees; }
+
+    public void setFees(String fees) {
+        this.fees = fees;
+    }
 }

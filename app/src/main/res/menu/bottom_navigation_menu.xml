@@ -9,9 +9,9 @@
         android:icon="@android:drawable/stat_notify_chat"
         android:title="Chat" />
     <item
-        android:id="@+id/nav_health"
-        android:icon="@drawable/healthcare"
-        android:title="Health" />
+        android:id="@+id/doctor_list"
+        android:icon="@drawable/doctor"
+        android:title="Doctors" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile"

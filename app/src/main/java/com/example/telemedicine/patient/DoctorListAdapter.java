@@ -43,7 +43,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
         // Set doctor details to views
         holder.doctorName.setText(doctor.getName());
         holder.doctorSpecialty.setText(doctor.getSpecialty());
-        holder.doctorContact.setText(doctor.getId());
+        holder.doctorContact.setText("Fees : ₹"+doctor.getFees());
 
         // Use Glide or similar library to load image (optional)
 //        Glide.with(context)

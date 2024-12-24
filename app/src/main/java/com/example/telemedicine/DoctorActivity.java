@@ -1,7 +1,11 @@
 package com.example.telemedicine;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.telemedicine.authentication.SignInActivity;
 import com.example.telemedicine.chat.ChatFragment;
 import com.example.telemedicine.chat.ChatListFragment;
 import com.example.telemedicine.doctor.ConsultationRemindersFragment;
@@ -24,17 +29,27 @@ import com.example.telemedicine.doctor.TrackEarningsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class DoctorActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private FragmentManager fragmentManager;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +72,8 @@ public class DoctorActivity extends AppCompatActivity {
                 fragment = new ManageAvailabilityFragment();
             } else if (item.getItemId() == R.id.nav_track_earnings) {
                 fragment = new TrackEarningsFragment();
+            } else if (item.getItemId() == R.id.nav_logout) {
+                showLogoutDialog();
             }
 
             if (fragment != null) {
@@ -92,6 +109,26 @@ public class DoctorActivity extends AppCompatActivity {
             loadFragment(new DoctorAppointmentsFragment()); // Default fragment
         }
     }
+
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    if (auth != null) {
+                        auth.signOut(); // Sign out the user
+                        Intent intent = new Intent(this, SignInActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear activity stack
+                        startActivity(intent);
+                        finish(); // Close the current activity
+                    } else {
+                        Toast.makeText(this, "Authentication error. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();

@@ -5,4 +5,33 @@
     <string name="navigation_drawer_close" />
     <string name="booked_appointments">Booked Appointments</string>
     <string name="type_a_message">Type a message</string>
+    <string name="telemedicine">Telemedicine</string>
+    <string name="patient_profiles">Patient Profiles</string>
+    
+    <string name="privacy_policy_content">
+        Welcome to our Telemedicine app. We value your privacy and are committed to protecting your personal information. 
+        Please review the following policies regarding data collection, use, and sharing. \n\n
+    
+        1. Data Collection:
+        We collect data to provide better healthcare services. This includes personal details (name, email, etc.), medical history, and communication logs with doctors.
+        \n\n
+        2. Data Use:
+        The collected data is used to manage appointments, facilitate doctor-patient communication, and improve our services. We do not sell your data to third parties.
+        \n\n
+        3. Data Security:
+        We implement advanced encryption techniques and secure servers to protect your data. Only authorized personnel can access your information.
+        \n\n
+        4. User Rights:
+        You have the right to access, modify, or delete your personal data. Please contact support for assistance.
+        \n\n
+        5. Changes to Policy:
+        We may update this Privacy Policy periodically. Changes will be communicated through app notifications.
+        \n\n
+        6. Contact Us:
+        If you have any questions, reach out to us at support@telemedicineapp.com.
+        \n\n
+        Thank you for trusting us with your healthcare needs.
+        - The Telemedicine Team
+    </string>
+
 </resources>

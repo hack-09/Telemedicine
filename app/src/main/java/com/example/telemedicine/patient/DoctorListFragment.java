@@ -75,7 +75,8 @@ public class DoctorListFragment extends Fragment {
                             String specialty = document.getString("specialty");
                             String id = document.getId();
                             String profileUrl = document.getString("profileImageUrl");
-                            doctors.add(new Doctor(id, name, specialty, profileUrl));
+                            String fees = document.getString("fees");
+                            doctors.add(new Doctor(id, name, specialty, profileUrl, fees));
                         }
                         listener.onDoctorsFetched(doctors);
                     } else {

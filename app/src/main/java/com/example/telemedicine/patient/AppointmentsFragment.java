@@ -89,7 +89,8 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                             String specialty = document.getString("specialty");
                             String id = document.getId();
                             String profileurl = document.getString("profileImageUrl");
-                            doctors.add(new Doctor(id, name, specialty, profileurl));
+                            String fees = document.getString("fees");
+                            doctors.add(new Doctor(id, name, specialty, profileurl, fees));
                         }
                         listener.onDoctorsFetched(doctors);
                     } else {

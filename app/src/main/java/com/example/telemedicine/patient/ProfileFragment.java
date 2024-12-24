@@ -3,6 +3,7 @@ package com.example.telemedicine.patient;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,15 +27,23 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import java.time.Instant;
+import java.time.temporal.TemporalAdjuster;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileFragment extends Fragment {
 
     private ImageView profileImage;
-    private TextView profileName, profileEmail;
-    private Button btnChangePassword, btnLogout, btnHelpSupport;
+    private TextView profileName, profileEmail, profileDOB;
+    private Button btnLogout;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Nullable
     @Override
@@ -44,26 +53,16 @@ public class ProfileFragment extends Fragment {
         profileImage = view.findViewById(R.id.profile_image);
         profileName = view.findViewById(R.id.profile_name);
         profileEmail = view.findViewById(R.id.profile_email);
-        btnChangePassword = view.findViewById(R.id.btn_change_password);
+        profileDOB = view.findViewById(R.id.patient_dob);
         btnLogout = view.findViewById(R.id.btn_logout);
-        btnHelpSupport = view.findViewById(R.id.btn_help_support);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            profileName.setText(currentUser.getDisplayName());
-            profileEmail.setText(currentUser.getEmail());
-            profileImage.setImageURI(currentUser.getPhotoUrl());
-//            Picasso.get().load(currentUser.getPhotoUrl()).into(profileImage);
+            fetchUserProfile(currentUser.getUid());
         }
-
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChangePasswordDialog();
-            }
-        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,14 +71,46 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        btnHelpSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Implement help and support functionality
+        return view;
+    }
+
+    private void fetchUserProfile(String userId) {
+        db.collection("patients").document(userId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                String name = document.getString("name");
+                String email = document.getString("email");
+                String dob = document.getString("dateOfBirth");
+                String profileImageUrl = document.getString("profileImage");
+
+                profileName.setText(name != null ? name : "N/A");
+                profileEmail.setText(email != null ? email : "N/A");
+                profileDOB.setText(dob!=null? dob:dob+".");
+
+                if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                    Instant Glide = null;
+                } else {
+                    profileImage.setImageResource(R.drawable.profile); // Default image
+                }
+            } else {
+                Toast.makeText(getContext(), "Failed to fetch profile data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        return view;
+    private void updateUserProfile(String userId, String name, String email, String profileImageUrl) {
+        Map<String, Object> updatedData = new HashMap<>();
+        updatedData.put("name", name);
+        updatedData.put("email", email);
+        updatedData.put("profileImage", profileImageUrl);
+
+        db.collection("users").document(userId).update(updatedData).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showChangePasswordDialog() {

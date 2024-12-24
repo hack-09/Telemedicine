@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_patient_profiles"
+            android:icon="@drawable/profile"
+            android:title="@string/patient_profiles"
+            android:titleCondensed="Patient Profiles" />
+        <item
+            android:id="@+id/nav_manage_availability"
+            android:icon="@drawable/medical_appointment"
+            android:title="Manage Availability" />
+        <item
+            android:id="@+id/nav_track_earnings"
+            android:icon="@drawable/bill"
+            android:iconTint="#FF0000"
+            android:title="Track Earnings" />
+    </group>
+
+    <group android:checkableBehavior="none">
+    <item android:title=" ">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/node_modules_reactnavigation_elements_src_assets_backicon"
+                android:title="Logout" />
+        </menu>
+    </item>
+    </group>
+
+</menu>

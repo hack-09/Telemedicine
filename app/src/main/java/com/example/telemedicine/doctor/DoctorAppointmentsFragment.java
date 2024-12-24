@@ -105,31 +105,6 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
         startActivity(intent);
     }
 
-//    @Override
-//    public void onJoinConsultation(Appointment appointment) {
-//        // Start the call when Join button is clicked
-//        String appointmentId = appointment.getAppointmentId();
-//        String doctorId = appointment.getDoctorId();
-//        String patientId = appointment.getPatientId();
-//
-//        if (appointmentId != null && doctorId != null && patientId != null) {
-//            // Start CallActivity and pass patientId and doctorId
-//            Intent intent = new Intent(getContext(), CallActivity.class);
-//            intent.putExtra("doctorId", doctorId);
-//            intent.putExtra("patientId", patientId);
-//            startActivity(intent);
-//        } else {
-//            Toast.makeText(getContext(), "Invalid appointment data", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    private void startConsultation(String appointmentId) {
-//        // This will start the WebRTC flow between doctor and patient using the appointmentId
-//        Intent intent = new Intent(getContext(), CallActivity.class);
-//        intent.putExtra("appointmentId", appointmentId); // Pass the appointmentId to the CallActivity
-//        startActivity(intent);
-//    }
-
 
     @Override
     public void onViewPatientProfile(Appointment appointment) {
