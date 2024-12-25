@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-<<<<<<< HEAD
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -16,30 +15,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-=======
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-<<<<<<< HEAD
         android:icon="@drawable/telemedicine_tag"
         android:label="@string/app_name"
         android:roundIcon="@drawable/telemedicine_tag"
-=======
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         android:supportsRtl="true"
         android:theme="@style/Theme.Telemedicine"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
             android:name=".authentication.SignInActivity"
-=======
-            android:name=".SignInActivity"
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +35,6 @@
             </intent-filter>
         </activity>
 
-<<<<<<< HEAD
         <activity android:name=".authentication.RegisterActivity" />
         <activity android:name="com.example.telemedicine.ui.LoginActivity" />
         <activity android:name="com.example.telemedicine.ui.CallActivity" android:exported="true"/>
@@ -58,10 +44,6 @@
         <activity android:name=".doctor.DoctorRecordsActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.PrivacyPolicyActivity" />
-=======
-        <activity android:name=".DoctorActivity"></activity>
-        <activity android:name=".PatientActivity"></activity>
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 
     </application>
 

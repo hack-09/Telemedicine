@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.telemedicine.ConsultationFragment;
 import com.example.telemedicine.R;
 import com.example.telemedicine.models.Appointment;
 import com.example.telemedicine.models.Doctor;

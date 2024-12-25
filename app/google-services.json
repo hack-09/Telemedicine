@@ -1,10 +1,7 @@
 {
   "project_info": {
     "project_number": "594272585526",
-<<<<<<< HEAD
     "firebase_url": "https://telemedicine-59510-default-rtdb.firebaseio.com",
-=======
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     "project_id": "telemedicine-59510",
     "storage_bucket": "telemedicine-59510.appspot.com"
   },
@@ -16,16 +13,13 @@
           "package_name": "com.example.telemedicine"
         }
       },
-<<<<<<< HEAD
       "oauth_client": [
         {
           "client_id": "594272585526-vaf2vq13f87hm2csdfkrenaagb6rat1e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-=======
       "oauth_client": [],
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
       "api_key": [
         {
           "current_key": "AIzaSyDFVCFfgkzro6Hpp9p-iUyzMPryNeGcaQQ"
@@ -33,16 +27,13 @@
       ],
       "services": {
         "appinvite_service": {
-<<<<<<< HEAD
           "other_platform_oauth_client": [
             {
               "client_id": "594272585526-vaf2vq13f87hm2csdfkrenaagb6rat1e.apps.googleusercontent.com",
               "client_type": 3
             }
-          ]
-=======
+          ],
           "other_platform_oauth_client": []
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         }
       }
     }

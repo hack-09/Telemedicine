@@ -1,6 +1,5 @@
 package com.example.telemedicine;
 
-<<<<<<< HEAD
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,19 +38,10 @@ public class DoctorActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FirebaseAuth auth;
 
-=======
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class DoctorActivity extends AppCompatActivity {
-
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
-<<<<<<< HEAD
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null) {
             Intent intent = new Intent(this, SignInActivity.class);
@@ -145,9 +135,5 @@ public class DoctorActivity extends AppCompatActivity {
         transaction.replace(R.id.content_frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-=======
-
-        // Implement doctor-specific features here
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     }
 }

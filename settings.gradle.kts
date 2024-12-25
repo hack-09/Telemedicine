@@ -9,10 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-<<<<<<< HEAD
         jcenter()
-=======
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     }
 }
 dependencyResolutionManagement {
@@ -20,7 +17,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-<<<<<<< HEAD
         maven {
             url = uri("https://github.com/jitsi/jitsi-maven-repository/raw/master/releases")
         }
@@ -30,8 +26,6 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
-=======
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     }
 }
 

@@ -30,17 +30,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-<<<<<<< HEAD
     buildFeatures {
         dataBinding = true
     }
 }
 
 
-=======
-}
-
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 dependencies {
 
     implementation(libs.appcompat)
@@ -50,7 +45,6 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
-<<<<<<< HEAD
     implementation(libs.firebase.storage)
     implementation(libs.mediarouter)
     implementation(libs.recyclerview)
@@ -68,10 +62,11 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.google.firebase:firebase-appcheck-playintegrity:16.0.0")
 
-=======
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.squareup.picasso:picasso:2.8")
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
+    androidTestImplementation(libs.junit.junit)
+    androidTestImplementation(libs.junit.junit)
+    androidTestImplementation(libs.junit.junit)
 }
