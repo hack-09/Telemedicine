@@ -3,7 +3,6 @@
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="navigation_drawer_open" />
     <string name="navigation_drawer_close" />
-<<<<<<< HEAD
     <string name="booked_appointments">Booked Appointments</string>
     <string name="type_a_message">Type a message</string>
     <string name="telemedicine">Telemedicine</string>
@@ -35,6 +34,4 @@
         - The Telemedicine Team
     </string>
 
-=======
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 </resources>

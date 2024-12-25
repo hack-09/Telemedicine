@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +14,7 @@
         android:background="@drawable/backgroung_dark"
         android:weightSum="4"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="40dp">
 
         <LinearLayout
@@ -120,18 +119,10 @@
 
     <LinearLayout
         android:id="@+id/loadingLayout"
-=======
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-<<<<<<< HEAD
         android:visibility="visible"
         android:padding="46dp">
 
@@ -165,56 +156,4 @@
 
     </LinearLayout>
 
-
 </LinearLayout>
-=======
-        android:padding="46dp">
-
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email" />
-
-        <EditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Password"
-            android:inputType="textPassword" />
-
-        <RadioGroup
-            android:id="@+id/userTypeRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioDoctor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Doctor" />
-
-            <RadioButton
-                android:id="@+id/radioPatient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Patient" />
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/signInButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign In" />
-
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928

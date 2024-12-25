@@ -51,24 +51,3 @@
         app:menu="@menu/doctor_drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
-=======
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/doctorWelcomeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Doctor!"
-            android:textSize="24sp" />
-
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928

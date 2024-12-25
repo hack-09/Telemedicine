@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <resources>
     <drawable name="message_background_current_user" />
     <drawable name="message_background_other_user" />
 </resources>
-=======
-<resources></resources>
->>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
