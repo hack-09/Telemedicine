@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+<<<<<<< HEAD
+=======
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Home" />
+    <item
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         android:id="@+id/nav_appointments"
         android:icon="@drawable/medical_appointment"
         android:title="Appointments" />
     <item
+<<<<<<< HEAD
         android:id="@+id/nav_chat"
         android:icon="@android:drawable/stat_notify_chat"
         android:title="Chat" />
@@ -12,6 +20,15 @@
         android:id="@+id/doctor_list"
         android:icon="@drawable/doctor"
         android:title="Doctors" />
+=======
+        android:id="@+id/nav_consultation"
+        android:icon="@drawable/consulting"
+        android:title="Consultation" />
+    <item
+        android:id="@+id/nav_health"
+        android:icon="@drawable/healthcare"
+        android:title="Health" />
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile"

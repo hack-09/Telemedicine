@@ -7,10 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".PatientActivity">
 
+<<<<<<< HEAD
+=======
+    <!-- Main content layout -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+<<<<<<< HEAD
+=======
+        <!-- Bottom Navigation Bar -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
@@ -20,6 +28,10 @@
             android:layout_alignParentEnd="true"
             app:menu="@menu/bottom_navigation_menu" />
 
+<<<<<<< HEAD
+=======
+        <!-- Main content here -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
@@ -28,12 +40,19 @@
 
     </RelativeLayout>
 
+<<<<<<< HEAD
+=======
+    <!-- Navigation Drawer -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+<<<<<<< HEAD
         app:headerLayout="@layout/header_menu"
+=======
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

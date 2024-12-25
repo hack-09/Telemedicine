@@ -1,5 +1,6 @@
 package com.example.telemedicine;
 
+<<<<<<< HEAD
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,4 +25,9 @@ public class ConsultationFragment extends Fragment {
 
     }
 
+=======
+import androidx.fragment.app.Fragment;
+
+public class ConsultationFragment extends Fragment {
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 }

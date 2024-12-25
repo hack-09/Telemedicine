@@ -1,5 +1,6 @@
 package com.example.telemedicine.models;
 
+<<<<<<< HEAD
 import java.util.List;
 
 public class Doctor {
@@ -25,6 +26,18 @@ public class Doctor {
 
     public void setId(String id) {
         this.id = id;
+=======
+public class Doctor {
+    private String name;
+    private String specialty;
+    private String profilePictureUrl;
+
+    // Constructor
+    public Doctor(String name, String specialty, String profilePictureUrl) {
+        this.name = name;
+        this.specialty = specialty;
+        this.profilePictureUrl = profilePictureUrl;
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
     }
 
     // Getters
@@ -52,10 +65,13 @@ public class Doctor {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+<<<<<<< HEAD
 
     public String getFees(){ return fees; }
 
     public void setFees(String fees) {
         this.fees = fees;
     }
+=======
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 }

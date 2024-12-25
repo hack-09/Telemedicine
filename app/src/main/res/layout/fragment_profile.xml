@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,10 +10,16 @@
     android:backgroundTintMode="multiply"
     android:padding="16dp"
     app:barrierMargin="2dp">
+=======
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+<<<<<<< HEAD
         android:background="@drawable/card_background"
         android:elevation="4dp"
         android:orientation="vertical"
@@ -61,19 +68,29 @@
         </LinearLayout>
 
 
+=======
+        android:orientation="vertical"
+        android:padding="16dp">
+
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         <!-- Profile Image -->
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
+<<<<<<< HEAD
             android:layout_marginTop="0dp"
+=======
+            android:layout_marginTop="16dp"
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
             android:layout_marginBottom="16dp"
             android:background="@color/white"
             android:contentDescription="Profile Image"
             android:padding="8dp"
             android:src="@drawable/profile" />
 
+<<<<<<< HEAD
         <TextView
             android:id="@+id/doctor_name_label"
             android:layout_width="wrap_content"
@@ -82,10 +99,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/secondary_text" />
 
+=======
+        <!-- Name -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:layout_marginBottom="16dp"
             android:text="Dr. John Doe"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -227,14 +248,55 @@
                 android:textColor="@color/primary_text" />
         </LinearLayout>
 
+=======
+            android:text="Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/profile_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Change Password Button -->
+        <Button
+            android:id="@+id/btn_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Logout Button -->
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
+<<<<<<< HEAD
             android:backgroundTint="@color/logout_button_color"
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />
 
     </LinearLayout>
+=======
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Help & Support Button -->
+        <Button
+            android:id="@+id/btn_help_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Help and Support"
+            android:layout_marginBottom="8dp"/>
+    </LinearLayout>
+
+
+>>>>>>> b3c56b5b1afab76afaefd452be7977574aa25928
 </ScrollView>
