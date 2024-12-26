@@ -19,13 +19,13 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 
 ## Screenshots
 
-  <img src="assets/login.png" alt="Login Screen" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/register.png" alt="Login Screen" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/patient_profile.png" alt="Patient Dashboard" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/doctor_profile.png" alt="Patient Dashboard" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/navigation_menu.png" alt="Prescription View" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/doctor_availability.png" alt="Doctor Availability" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
-  <img src="assets/appointmentList.png" alt="Doctor Availability" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+  <img src="assets/login.png" alt="Login Screen"  width="200">
+  <img src="assets/register.png" alt="Login Screen"  width="200">
+  <img src="assets/patient_profile.png" alt="Patient Dashboard"  width="200">
+  <img src="assets/doctor_profile.png" alt="Patient Dashboard"  width="200">
+  <img src="assets/navigation_menu.png" alt="Prescription View"  width="200">
+  <img src="assets/doctor_availability.png" alt="Doctor Availability"  width="200">
+  <img src="assets/appointmentList.png" alt="Doctor Availability"  width="200">
  
 ---
 
