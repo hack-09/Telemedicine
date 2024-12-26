@@ -13,16 +13,12 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Calendar View -->
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="0dp" />
 
-            <!-- Doctor List (Horizontal Scroll) -->
-
-            <!-- Appointments List -->
             <TextView
                 android:id="@+id/noAppointmentsText"
                 android:layout_width="match_parent"

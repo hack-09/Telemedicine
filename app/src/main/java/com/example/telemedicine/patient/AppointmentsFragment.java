@@ -37,10 +37,8 @@ import java.util.Map;
 public class AppointmentsFragment extends Fragment implements AppointmentsAdapter.OnAppointmentActionListener {
 
     private CalendarView calendarView;
-    private RecyclerView doctorRecyclerView, appointmentsRecyclerView, slotsRecyclerView;
+    private RecyclerView appointmentsRecyclerView;
     private TextView noAppointmentsText;
-    private DoctorAdapter doctorAdapter;
-    private List<Doctor> doctorList;
     private List<Appointment> appointmentList;
     private String userId;
 
@@ -56,44 +54,12 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
         noAppointmentsText = view.findViewById(R.id.noAppointmentsText);
 
         // Set up RecyclerViews
-        doctorRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         appointmentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        slotsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        setupDoctorList();
         setupAppointmentsList();
         setupCalendar();
 
         return view;
-    }
-
-    private void setupDoctorList() {
-        getDoctors(doctors -> {
-            doctorList = doctors;
-            doctorAdapter = new DoctorAdapter(doctorList, this::onDoctorSelected);
-            doctorRecyclerView.setAdapter(doctorAdapter);
-        });
-    }
-
-    private void getDoctors(OnDoctorsFetchedListener listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("doctors").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        List<Doctor> doctors = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String name = document.getString("name");
-                            String specialty = document.getString("specialty");
-                            String id = document.getId();
-                            String profileurl = document.getString("profileImageUrl");
-                            String fees = document.getString("fees");
-                            doctors.add(new Doctor(id, name, specialty, profileurl, fees));
-                        }
-                        listener.onDoctorsFetched(doctors);
-                    } else {
-                        Toast.makeText(getActivity(), "Error getting doctors.", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void setupAppointmentsList() {
@@ -199,85 +165,8 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
         return new ArrayList<>();
     }
 
-    private void onDoctorSelected(Doctor doctor) {
-        fetchAvailableSlots(doctor, slots -> showAvailableSlots(slots, doctor));
-    }
-
-    private void showAvailableSlots(List<Slot> slots, Doctor doctor) {
-        if (slots.isEmpty()) {
-            Toast.makeText(getActivity(), "No available slots for " + doctor.getName(), Toast.LENGTH_SHORT).show();
-        } else {
-            SlotsAdapter slotsAdapter = new SlotsAdapter(slots, slot -> bookSlot(slot, doctor));
-            slotsRecyclerView.setAdapter(slotsAdapter);
-        }
-    }
-
-    private void bookSlot(Slot slot, Doctor doctor) {
-        // Implement booking logic here, such as saving the appointment to Firebase
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> appointment = new HashMap<>();
-        appointment.put("patientId", userId);
-        appointment.put("doctorId", doctor.getId());
-        appointment.put("doctorName", doctor.getName());
-        appointment.put("slotTime", slot.getTime());
-        appointment.put("status", "Booked");
-
-        db.collection("appointments")
-                .add(appointment)
-                .addOnSuccessListener(documentReference -> {
-                    // Update the slot's booked status
-                    updateSlotStatus(doctor.getId(), slot.getTime(), true);
-                    Toast.makeText(getActivity(), "Appointment booked with " + doctor.getName(), Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getActivity(), "Failed to book appointment.", Toast.LENGTH_SHORT).show();
-                });
-    }
-
-
     interface OnSlotsFetchedListener {
         void onSlotsFetched(List<Slot> slots);
-    }
-
-    private void fetchAvailableSlots(Doctor doctor, OnSlotsFetchedListener listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("doctors").document(doctor.getId()).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        DocumentSnapshot document = task.getResult();
-                        List<Slot> slots = new ArrayList<>();
-
-                        Object availableSlotsObject = document.get("availableSlots");
-
-                        if (availableSlotsObject instanceof Map) {
-                            Map<String, Map<String, Object>> slotDataMap = (Map<String, Map<String, Object>>) availableSlotsObject;
-
-                            for (Map.Entry<String, Map<String, Object>> entry : slotDataMap.entrySet()) {
-                                String slotId = entry.getKey();
-                                Map<String, Object> slotData = entry.getValue();
-
-                                String date = (String) slotData.get("date");
-                                String time = (String) slotData.get("time");
-                                Boolean isBooked = (Boolean) slotData.get("isBooked");
-
-                                if (isBooked != null && !isBooked) {
-                                    Slot slot = new Slot(slotId, date, time,false);
-                                    slots.add(slot);
-                                } else {
-                                    Toast.makeText(getActivity(), "No available slots for this doctor.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        } else {
-                            Log.e("fetchAvailableSlots", "Unexpected data structure for availableSlots");
-                        }
-
-                        listener.onSlotsFetched(slots);
-                    } else {
-                        Log.e("fetchAvailableSlots", "Error getting document: ", task.getException());
-                        Toast.makeText(getActivity(), "Error getting available slots.", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
 
@@ -342,10 +231,5 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
     private void updateAppointmentsList(List<Appointment> appointments) {
         AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointments, this);
         appointmentsRecyclerView.setAdapter(appointmentsAdapter);
-    }
-
-    // Define any additional listeners or interfaces here
-    interface OnDoctorsFetchedListener {
-        void onDoctorsFetched(List<Doctor> doctors);
     }
 }
