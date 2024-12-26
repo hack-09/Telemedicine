@@ -31,16 +31,19 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 
 <style>
 .image-container {
-  text-align: center; /* Centers the images horizontally */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* or space-around, space-between */
+  gap: 20px; /* NEW: Adds consistent spacing between items */
 }
 
 .image-container img {
-  display: inline-block; /* Allows horizontal arrangement */
-  margin: 10px; /* Add some margin around images */
-    vertical-align: top; /* stops default spacing below images */
+  box-sizing: border-box; /* Important for consistent sizing */
+  max-width: 100%; /* Ensures images don't overflow their container */
+  height: auto;
 }
 </style>
- 
+
 ---
 
 ## Tech Stack
