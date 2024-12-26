@@ -20,14 +20,14 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 ## Screenshots
 
 ### Authentication Screen
-![Login Screen](assets/login.png)
-![Login Screen](assets/regiser.png)
+<img src="assets/login.png" alt="Login Screen" width="300">
+<img src="assets/register.png" alt="Login Screen" width="300">
 
 ### Patient
-![Patient Dashboard](assets/patient_profile.png)
+<img src="assets/patient_profile.png" alt="" width="300">
 
 ### Doctor 
-![Doctor Profile](assets/doctor_profile.png)
+<img src="assets/doctor_profile.png" alt="" width="300">
 
 ---
 
