@@ -6,7 +6,7 @@ public class Slot {
     private String time;
     private boolean isBooked;
 
-    public Slot(String id, String time, boolean isBooked) {
+    public Slot(String id, String date, String time, boolean isBooked) {
         this.id = id;
         this.date = date;
         this.time = time;

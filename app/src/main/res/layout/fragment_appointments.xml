@@ -21,20 +21,6 @@
                 android:layout_marginBottom="16dp" />
 
             <!-- Doctor List (Horizontal Scroll) -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Available Doctors"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/doctorRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:scrollbars="vertical" />
 
             <!-- Appointments List -->
             <TextView
@@ -45,13 +31,6 @@
                 android:textAlignment="center"
                 android:visibility="gone"
                 android:layout_marginBottom="8dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/slotsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:scrollbars="vertical" />
 
             <TextView
                 android:layout_width="wrap_content"

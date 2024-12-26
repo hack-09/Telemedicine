@@ -52,9 +52,7 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         calendarView = view.findViewById(R.id.calendarView);
-        doctorRecyclerView = view.findViewById(R.id.doctorRecyclerView);
         appointmentsRecyclerView = view.findViewById(R.id.appointmentsRecyclerView);
-        slotsRecyclerView = view.findViewById(R.id.slotsRecyclerView);
         noAppointmentsText = view.findViewById(R.id.noAppointmentsText);
 
         // Set up RecyclerViews
@@ -264,7 +262,7 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                                 Boolean isBooked = (Boolean) slotData.get("isBooked");
 
                                 if (isBooked != null && !isBooked) {
-                                    Slot slot = new Slot(slotId, date, false);
+                                    Slot slot = new Slot(slotId, date, time,false);
                                     slots.add(slot);
                                 } else {
                                     Toast.makeText(getActivity(), "No available slots for this doctor.", Toast.LENGTH_SHORT).show();

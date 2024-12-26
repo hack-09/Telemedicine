@@ -72,11 +72,30 @@
             </LinearLayout>
         </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/slotsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp" />
+        <Button
+            android:id="@+id/datePickerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Date"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/slotsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <TextView
+            android:id="@+id/notAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:text="No slots available for the selected date."
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
