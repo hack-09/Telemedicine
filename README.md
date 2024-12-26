@@ -15,6 +15,22 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 - **View Patient Records:** Access patient medical documents and view appointment history.
 - **Upload Prescriptions:** After consultations, upload prescriptions for patients to access.
 
+---
+
+## Screenshots
+
+### Authentication Screen
+![Login Screen](assets/login.png)
+![Login Screen](assets/regiser.png)
+
+### Patient
+![Patient Dashboard](assets/patient_profile.png)
+
+### Doctor 
+![Doctor Profile](assets/doctor_profile.png)
+
+---
+
 ## Tech Stack
 
 - **Frontend:** Android Studio, Java
