@@ -30,27 +30,23 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the custom layout for doctor list item
         View view = LayoutInflater.from(context).inflate(R.layout.item_doctor_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Get the doctor from the list
         Doctor doctor = doctorList.get(position);
 
-        // Set doctor details to views
         holder.doctorName.setText(doctor.getName());
         holder.doctorSpecialty.setText(doctor.getSpecialty());
-        holder.doctorContact.setText(doctor.getId());
+        holder.doctorContact.setText("Fees : Rs. "+doctor.getFees());
 
         // Use Glide or similar library to load image (optional)
 //        Glide.with(context)
 //                .load(doctor.getImageUrl()) // Assuming you have image URL for the doctor
 //                .into(holder.doctorImage);
 
-        // Handle item click
         holder.itemView.setOnClickListener(v -> listener.onDoctorSelected(doctor));
     }
 

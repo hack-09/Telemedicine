@@ -264,7 +264,7 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                                 Boolean isBooked = (Boolean) slotData.get("isBooked");
 
                                 if (isBooked != null && !isBooked) {
-                                    Slot slot = new Slot(slotId, date, time, false);
+                                    Slot slot = new Slot(slotId, date, false);
                                     slots.add(slot);
                                 } else {
                                     Toast.makeText(getActivity(), "No available slots for this doctor.", Toast.LENGTH_SHORT).show();
@@ -282,9 +282,6 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
                 });
     }
 
-    private void rescheduleAppointment(Appointment appointment) {
-        // Implement rescheduling logic here
-    }
 
     private void updateSlotStatus(String doctorId, String slotTime, boolean isBooked) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

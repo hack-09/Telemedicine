@@ -1,14 +1,12 @@
 package com.example.telemedicine.models;
 
-import java.util.Date;
-
 public class Slot {
     private String id;  // ID of the slot in the map
     private String date;
     private String time;
     private boolean isBooked;
 
-    public Slot(String id, String date, String time, boolean isBooked) {
+    public Slot(String id, String time, boolean isBooked) {
         this.id = id;
         this.date = date;
         this.time = time;

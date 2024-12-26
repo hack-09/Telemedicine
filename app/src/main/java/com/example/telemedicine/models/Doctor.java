@@ -1,7 +1,8 @@
 package com.example.telemedicine.models;
+import java.io.Serializable;
 import java.util.List;
 
-public class Doctor {
+public class Doctor implements Serializable {
     private String id;
     private String name;
     private String specialty;

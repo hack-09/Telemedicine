@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,10 +87,19 @@ public class DoctorListFragment extends Fragment {
     }
 
     private void onDoctorSelected(Doctor doctor) {
-        // Handle doctor selection, e.g., navigate to a detailed doctor profile or booking slots
-        Toast.makeText(getActivity(), "Selected doctor: " + doctor.getName(), Toast.LENGTH_SHORT).show();
-//        showAvailableSlotsDialog(doctor);
+        DoctorDetailsFragment fragment = new DoctorDetailsFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("doctor", (Serializable) doctor); // Pass the doctor object to the details fragment
+        fragment.setArguments(args);
+
+        // Replace the current fragment with the DoctorDetailsFragment
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, fragment) // Use the appropriate container ID
+                .addToBackStack(null) // Add to back stack to allow navigation back
+                .commit();
     }
+
 
     interface OnDoctorsFetchedListener {
         void onDoctorsFetched(List<Doctor> doctors);

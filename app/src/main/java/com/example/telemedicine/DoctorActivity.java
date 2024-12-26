@@ -65,7 +65,7 @@ public class DoctorActivity extends AppCompatActivity {
             Fragment fragment = null;
             // Navigation Drawer Item Click Listener
             if (item.getItemId() == R.id.nav_patient_profiles) {
-                fragment = new AppointmentsFragment();
+                fragment = new PatientListFragment();
             } else if (item.getItemId() == R.id.nav_appointments) {
                 fragment = new AppointmentsFragment();
             } else if (item.getItemId() == R.id.nav_manage_availability) {

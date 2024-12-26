@@ -14,14 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#2E245B"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <!-- Image on the Left Side -->
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -63,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Contact"
+                android:text="Fees"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#D3D3D3" />
@@ -71,20 +66,6 @@
         </LinearLayout>
     </LinearLayout>
 
-        <Button
-            android:id="@+id/appointment"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/visit"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Appointment"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 
 
