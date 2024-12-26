@@ -19,15 +19,44 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 
 ## Screenshots
 
-### Authentication Screen
-<img src="assets/login.png" alt="Login Screen" width="300">
-<img src="assets/register.png" alt="Login Screen" width="300">
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
-### Patient
-<img src="assets/patient_profile.png" alt="" width="300">
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/login.png" alt="Login Screen" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Login Screen</p>
+  </div>
 
-### Doctor 
-<img src="assets/doctor_profile.png" alt="" width="300">
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/register.png" alt="Login Screen" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Login Screen</p>
+  </div>
+
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/patient_profile.png" alt="Patient Dashboard" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Patient Dashboard</p>
+  </div>
+
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/doctor_profile.png" alt="Patient Dashboard" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Patient Dashboard</p>
+  </div>
+  
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/navigation_menu.png" alt="Prescription View" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Navigation Menu</p>
+  </div>
+  
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/doctor_availability.png" alt="Doctor Availability" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Doctor Availability</p>
+  </div>
+
+  <div style="flex: 1; min-width: 43%;">
+    <img src="assets/appointmentList.png" alt="Doctor Availability" style="width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+    <p align="center">Doctor Availability</p>
+  </div>
+
+</div>
 
 ---
 
