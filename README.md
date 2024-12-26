@@ -17,7 +17,7 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 
 ## Tech Stack
 
-- **Frontend:** Android Studio, Kotlin
+- **Frontend:** Android Studio, Java
 - **Backend:** Firebase Realtime Database, Firebase Authentication, Firebase Storage
 - **Libraries Used:**
   - Retrofit
