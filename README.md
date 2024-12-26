@@ -37,7 +37,7 @@ A simple and user-friendly telemedicine platform that enables patients and docto
 1. Clone this repository to your local machine:
 
     ```bash
-    git clone https://github.com/<your-username>/telemedicine-app.git
+    git clone https://github.com/hack-09/Telemedicine.git
     ```
 
 2. Open the project in Android Studio.
@@ -72,6 +72,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Note:** This is a prototype app for educational purposes. Future updates and features will be added to improve the functionality and user experience.
 
----
-
-Feel free to replace `<your-username>` with your actual GitHub username and adjust any details specific to your app. Let me know if you'd like any changes!
