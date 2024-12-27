@@ -67,7 +67,7 @@ public class DoctorAppointmentsAdapter extends RecyclerView.Adapter<DoctorAppoin
             String slotTime = appointment.getSlotTime() != null ? appointment.getSlotTime() : "Unknown time";
 
             // Bind appointment details
-            appointmentInfo.setText("Appointment with " + patientName + " at " + slotTime);
+            appointmentInfo.setText("Appointment at " + slotTime);
 
             joinButton.setOnClickListener(v -> listener.onJoinConsultation(appointment));
             vedioCallBtn.setOnClickListener(v -> listener.onVedioCall(appointment));

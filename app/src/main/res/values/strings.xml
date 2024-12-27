@@ -34,4 +34,37 @@
         - The Telemedicine Team
     </string>
 
+    <string name="help_and_support">
+        FAQs for Telemedicine App \n\n
+        1. 🤔 How do I book an appointment?
+        👉 Go to the 🗓️ "Book Appointment" section, select a 👨‍⚕️ doctor, choose a 🕒 time slot, and confirm your booking.
+        \n\n
+        2. 💬 Can I communicate with the doctor before my appointment?
+        👉 Communication before appointments depends on the doctor’s settings. Use the chat or call option if available.
+        \n\n
+        3. 📝 How do I upload my medical reports?
+        👉 Navigate to the 📂 "Documents" section and click "Upload". Select your file 📄 from your 📱 device.
+        \n\n
+        4. 📅 Can I reschedule or cancel my appointment?
+        👉 Yes, go to the 🗓️ "My Appointments" section, select the appointment, and choose "Reschedule" or "Cancel".
+        \n\n
+        5. 🔒 Is my medical information secure?
+        👉 Yes, we use 🔐 end-to-end encryption to protect your data and ensure 🛡️ privacy.
+        \n\n
+        6. 📞 What if I face issues during a video consultation?
+        👉 Check your 📶 internet connection and ensure 🎥 camera and 🎙️ microphone permissions are enabled. Contact support if the issue persists.
+        \n\n
+        7. 🩺 Can I consult a doctor from another city?
+        👉 Absolutely! Our app allows you to connect with doctors 🗺️ nationwide, irrespective of your location.
+        \n\n
+        8. 💵 How do I make payments?
+        👉 Payments can be made through 💳 cards, 🛠️ UPI, or other available payment methods at checkout.
+        \n\n
+        9. 📧 How do I contact support for help?
+        👉 Use the "Contact Support" section in the app or email us at 📧 support@telemedicine.com.
+        \n\n
+        10. 🆘 What should I do in case of an emergency?
+        👉 For urgent medical attention, please contact your nearest 🚑 hospital or call 📞 emergency services immediately.
+    </string>
+
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -20,17 +21,22 @@
             android:layout_gravity="center_vertical"
             android:paddingStart="12dp"
             android:text="Appointments"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/datePickerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="#0E0035"
+            android:backgroundTintMode="multiply"
+            android:text="Select Date"
+            android:textColor="#FAF8F8"
+            android:textColorHighlight="#70FAF7F7"
+            android:textColorLink="#FAF7F7" />
     </androidx.appcompat.widget.Toolbar>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewDoctorAppointments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -39,4 +45,11 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
         android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDoctorAppointments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp" />
+
 </LinearLayout>

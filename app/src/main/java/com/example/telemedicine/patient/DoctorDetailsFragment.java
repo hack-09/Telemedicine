@@ -81,7 +81,7 @@ public class DoctorDetailsFragment extends Fragment {
 
         datePickerButton.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getActivity(),
+                    Objects.requireNonNull(getActivity()),
                     (view, year, month, dayOfMonth) -> {
                         selectedDate.set(year, month, dayOfMonth);
                         updateDateButton();

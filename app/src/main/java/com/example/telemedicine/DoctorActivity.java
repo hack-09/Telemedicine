@@ -27,6 +27,8 @@ import com.example.telemedicine.doctor.PatientMessagesFragment;
 import com.example.telemedicine.doctor.PatientProfilesFragment;
 import com.example.telemedicine.doctor.TrackEarningsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
+import com.example.telemedicine.settings.HelpAndSupport;
+import com.example.telemedicine.settings.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,14 +68,16 @@ public class DoctorActivity extends AppCompatActivity {
             // Navigation Drawer Item Click Listener
             if (item.getItemId() == R.id.nav_patient_profiles) {
                 fragment = new PatientListFragment();
-            } else if (item.getItemId() == R.id.nav_appointments) {
-                fragment = new AppointmentsFragment();
+            } else if (item.getItemId() == R.id.nav_help) {
+                startActivity(new Intent(DoctorActivity.this, HelpAndSupport.class));
             } else if (item.getItemId() == R.id.nav_manage_availability) {
                 fragment = new ManageAvailabilityFragment();
             } else if (item.getItemId() == R.id.nav_track_earnings) {
                 fragment = new TrackEarningsFragment();
             } else if (item.getItemId() == R.id.nav_logout) {
                 showLogoutDialog();
+            }else if (item.getItemId() == R.id.nav_settings) {
+                startActivity(new Intent(DoctorActivity.this, SettingsActivity.class));
             }
 
             if (fragment != null) {

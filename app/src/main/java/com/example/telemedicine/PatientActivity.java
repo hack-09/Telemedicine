@@ -14,25 +14,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.telemedicine.authentication.SignInActivity;
 import com.example.telemedicine.chat.ChatListFragment;
-import com.example.telemedicine.doctor.DoctorAppointmentsFragment;
 import com.example.telemedicine.patient.AppointmentsFragment;
-import com.example.telemedicine.patient.BillingActivity;
 import com.example.telemedicine.patient.DoctorListFragment;
-import com.example.telemedicine.patient.HealthFragment;
-import com.example.telemedicine.patient.HelpActivity;
 import com.example.telemedicine.patient.MedicalRecordsActivity;
-import com.example.telemedicine.patient.NotificationsActivity;
 import com.example.telemedicine.patient.ProfileFragment;
+import com.example.telemedicine.settings.HelpAndSupport;
 import com.example.telemedicine.settings.SettingsActivity;
-import com.example.telemedicine.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import android.widget.Toast;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 
 public class PatientActivity extends AppCompatActivity {
 
@@ -90,8 +82,8 @@ public class PatientActivity extends AppCompatActivity {
 
                 if (itemId == R.id.nav_medical_records) {
                     startActivity(new Intent(PatientActivity.this, MedicalRecordsActivity.class));
-                } else if (itemId == R.id.nav_billing) {
-                    startActivity(new Intent(PatientActivity.this, BillingActivity.class));
+                } else if (itemId == R.id.nav_help) {
+                    startActivity(new Intent(PatientActivity.this, HelpAndSupport.class));
                 }
                 else if (itemId == R.id.nav_settings) {
                     startActivity(new Intent(PatientActivity.this, SettingsActivity.class));

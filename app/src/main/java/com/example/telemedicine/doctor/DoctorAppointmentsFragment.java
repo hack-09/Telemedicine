@@ -1,10 +1,12 @@
 package com.example.telemedicine.doctor;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,17 +26,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class DoctorAppointmentsFragment extends Fragment implements DoctorAppointmentsAdapter.OnDoctorAppointmentActionListener {
 
     private RecyclerView recyclerView;
     private DoctorAppointmentsAdapter adapter;
-    private List<Appointment> appointments = new ArrayList<>();;  // Fetch this list from the backend (e.g., Firebase)
+    private List<Appointment> appointments = new ArrayList<>();
     private FirebaseFirestore db;
     private String userId;
     private ProgressBar progressBar;
+    private Button datePickerButton;
+    private Calendar selectedDate;
 
     @Nullable
     @Override
@@ -45,23 +52,51 @@ public class DoctorAppointmentsFragment extends Fragment implements DoctorAppoin
 
         progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.recyclerViewDoctorAppointments);
+        datePickerButton = view.findViewById(R.id.datePickerButton);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Initialize the adapter and pass the list of appointments
         adapter = new DoctorAppointmentsAdapter(appointments, this);
         recyclerView.setAdapter(adapter);
 
-        // Load the appointments from backend (Firebase query can be implemented here)
+        selectedDate = Calendar.getInstance();
+        updateDateButton();
+
+        datePickerButton.setOnClickListener(v -> showDatePicker());
+
         loadAppointments();
 
         return view;
+    }
+    private void showDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                (view, year, month, dayOfMonth) -> {
+                    selectedDate.set(year, month, dayOfMonth);
+                    updateDateButton();
+                    loadAppointments(); // Reload appointments for the selected date
+                },
+                selectedDate.get(Calendar.YEAR),
+                selectedDate.get(Calendar.MONTH),
+                selectedDate.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    private void updateDateButton() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        datePickerButton.setText(dateFormat.format(selectedDate.getTime()));
     }
 
     private void loadAppointments() {
         progressBar.setVisibility(View.VISIBLE);
         appointments.clear();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String selectedDateStr = dateFormat.format(selectedDate.getTime());
+
         db.collection("appointments")
-                .whereEqualTo("doctorId", userId) // Fetch appointments for the logged-in doctor
+                .whereEqualTo("doctorId", userId)
+                .whereEqualTo("slotDate", selectedDateStr)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

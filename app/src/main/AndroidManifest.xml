@@ -44,6 +44,7 @@
         <activity android:name=".doctor.DoctorRecordsActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.PrivacyPolicyActivity" />
+        <activity android:name=".settings.HelpAndSupport" />
 
     </application>
 
