@@ -26,7 +26,11 @@ A simple and user-friendly telemedicine platform that enables patients and docto
   <img src="assets/doctor_profile.png" alt="Patient Dashboard" width="200">
   <img src="assets/navigation_menu.png" alt="Prescription View" width="200">
   <img src="assets/doctor_availability.png" alt="Doctor Availability" width="200">
-    <img src="assets/appointmentList.png" alt="Doctor Availability" width="200">
+  <img src="assets/documents.png" alt="Doctor Availability" width="200">
+  <img src="assets/prescription.png" alt="Doctor Availability" width="200">
+  <img src="assets/appointmentManage.png" alt="Doctor Availability" width="200">
+  <img src="assets/help_support.png" alt="Doctor Availability" width="200">
+  <img src="assets/settings.png" alt="Doctor Availability" width="200">
 </div>
 
 <style>
