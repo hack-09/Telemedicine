@@ -33,20 +33,7 @@ A simple and user-friendly telemedicine platform that enables patients and docto
   <img src="assets/settings.png" alt="Doctor Availability" width="200">
 </div>
 
-<style>
-.image-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* or space-around, space-between */
-  gap: 20px; /* NEW: Adds consistent spacing between items */
-}
 
-.image-container img {
-  box-sizing: border-box; /* Important for consistent sizing */
-  max-width: 100%; /* Ensures images don't overflow their container */
-  height: auto;
-}
-</style>
 
 ---
 
