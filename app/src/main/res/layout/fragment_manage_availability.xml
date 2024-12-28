@@ -14,9 +14,9 @@
         android:src="@drawable/calander"
         android:contentDescription="Calendar Icon" />
 
-    <!-- Date Input with DatePickerDialog -->
+    <!-- Start Date Input with DatePickerDialog -->
     <EditText
-        android:id="@+id/etDate"
+        android:id="@+id/etStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -24,15 +24,32 @@
         android:clickable="true"
         android:drawableLeft="@android:drawable/ic_menu_today"
         android:focusable="false"
-        android:hint="Select Date"
+        android:hint="Select Start Date"
         android:padding="10dp"
         android:textColor="#000000"
         android:textColorHint="#020000"
         android:textColorLink="#090000" />
 
-    <!-- Time Input with TimePickerDialog -->
+    <!-- End Date Input with DatePickerDialog -->
     <EditText
-        android:id="@+id/etTime"
+        android:id="@+id/etEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:clickable="true"
+        android:drawableLeft="@android:drawable/ic_menu_today"
+        android:focusable="false"
+        android:visibility="gone"
+        android:hint="Select End Date"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#020000"
+        android:textColorLink="#090000" />
+
+    <!-- Start Time Input with TimePickerDialog -->
+    <EditText
+        android:id="@+id/etStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,18 +57,33 @@
         android:clickable="true"
         android:drawableLeft="@drawable/gph_ic_recent"
         android:focusable="false"
-        android:hint="Select Time"
+        android:hint="Select Start Time"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#050101" />
+
+    <!-- End Time Input with TimePickerDialog -->
+    <EditText
+        android:id="@+id/etEndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:clickable="true"
+        android:drawableLeft="@drawable/gph_ic_recent"
+        android:focusable="false"
+        android:hint="Select End Time"
         android:padding="10dp"
         android:textColor="#000000"
         android:textColorHint="#050101" />
 
     <!-- Save Slot Button -->
     <Button
-        android:id="@+id/btnSaveSlot"
+        android:id="@+id/btnSaveSlots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Save Slot"
+        android:text="Save Slots"
         android:backgroundTint="#34A075"
         android:textColor="#FFFFFF" />
 
