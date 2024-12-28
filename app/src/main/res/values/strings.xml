@@ -66,5 +66,7 @@
         10. 🆘 What should I do in case of an emergency?
         👉 For urgent medical attention, please contact your nearest 🚑 hospital or call 📞 emergency services immediately.
     </string>
+    <string name="appointments">Appointments</string>
+    <string name="prescriptions">Prescriptions</string>
 
 </resources>

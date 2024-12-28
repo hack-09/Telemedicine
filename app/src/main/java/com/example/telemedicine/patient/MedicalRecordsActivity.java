@@ -37,7 +37,6 @@ import java.util.Map;
 import android.view.MenuItem;
 import com.example.telemedicine.R;
 
-
 public class MedicalRecordsActivity extends AppCompatActivity {
 
     private RecyclerView prescriptionsRecyclerView, documentsRecyclerView;
@@ -55,59 +54,34 @@ public class MedicalRecordsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_records);
 
+        initializeViews();
+        setupFirebaseUser();
+        setupRecyclerViews();
+        fetchPrescriptions();
+        fetchDocuments();
+
+        setupBottomNavigation();
+
+        uploadDocumentButton.setOnClickListener(v -> selectDocument());
+    }
+
+    private void initializeViews() {
         prescriptionLayout = findViewById(R.id.prescriptionLayout);
         documentsLayout = findViewById(R.id.documentsLayout);
         prescriptionsRecyclerView = findViewById(R.id.prescriptionsRecyclerView);
         documentsRecyclerView = findViewById(R.id.documentsRecyclerView);
         uploadDocumentButton = findViewById(R.id.uploadDocumentButton);
+    }
 
-        // Fetch the current user's ID
+    private void setupFirebaseUser() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             userId = currentUser.getUid();
-        }
-
-        // Set up RecyclerViews
-        setupRecyclerViews();
-
-        // Fetch prescriptions and documents
-        fetchPrescriptions();
-        fetchDocuments();
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();  // Get the selected item ID
-
-            if (itemId == R.id.navigation_prescription) {
-                prescriptionLayout.setVisibility(View.VISIBLE);
-                documentsLayout.setVisibility(View.GONE);
-                return true;
-
-
-            } else if (itemId == R.id.navigation_documents) {
-                documentsLayout.setVisibility(View.VISIBLE);
-                prescriptionLayout.setVisibility(View.GONE);
-                return true;
-            }
-
-            return false;  // Return false if none of the items match
-        });
-
-
-        uploadDocumentButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("application/pdf");  // For PDF files, or use "image/*" for images
-            startActivityForResult(intent, REQUEST_CODE_SELECT_DOCUMENT);
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SELECT_DOCUMENT && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri fileUri = data.getData();
-            uploadDocument(fileUri, "Medical Report");
+        } else {
+            Log.e("FirebaseAuth", "User not logged in.");
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
@@ -121,6 +95,42 @@ public class MedicalRecordsActivity extends AppCompatActivity {
         documentsRecyclerView.setAdapter(documentAdapter);
     }
 
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            if(item.getItemId()==R.id.navigation_prescription) {
+                switchToLayout(prescriptionLayout, documentsLayout);
+                return true;
+            }
+            else if(item.getItemId()==R.id.navigation_documents) {
+                switchToLayout(documentsLayout, prescriptionLayout);
+                return true;
+            }
+            else{
+                    return false;
+            }
+        });
+    }
+
+    private void switchToLayout(View showLayout, View hideLayout) {
+        showLayout.setVisibility(View.VISIBLE);
+        hideLayout.setVisibility(View.GONE);
+    }
+
+    private void selectDocument() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(intent, REQUEST_CODE_SELECT_DOCUMENT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SELECT_DOCUMENT && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            uploadDocument(data.getData(), "Medical Report");
+        }
+    }
+
     private void fetchPrescriptions() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("prescriptions")
@@ -128,11 +138,10 @@ public class MedicalRecordsActivity extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<Prescription> prescriptionList = new ArrayList<>();
                         prescriptionList.clear();
                         for (DocumentSnapshot document : task.getResult()) {
                             Prescription prescription = document.toObject(Prescription.class);
-                            fetchDoctorName(prescription, prescriptionList);
+                            fetchDoctorName(prescription);
                         }
                     } else {
                         Log.e("Prescriptions", "Error getting prescriptions", task.getException());
@@ -140,62 +149,20 @@ public class MedicalRecordsActivity extends AppCompatActivity {
                 });
     }
 
-    private void fetchDoctorName(Prescription prescription, List<Prescription> prescriptionList) {
+    private void fetchDoctorName(Prescription prescription) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Use doctorId to fetch doctor details directly from the doctors collection
         String doctorId = prescription.getDoctorId();
-        if (doctorId == null) {
-            Log.e("DoctorName", "Doctor ID is null. Cannot fetch doctor details.");
-            return;
+        if (doctorId != null) {
+            db.collection("doctors").document(doctorId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            prescription.setDoctorName(documentSnapshot.getString("name"));
+                            prescriptionList.add(prescription);
+                            prescriptionAdapter.notifyDataSetChanged();
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e("DoctorName", "Error getting doctor name", e));
         }
-
-        db.collection("doctors")
-                .document(doctorId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String doctorName = documentSnapshot.getString("name");
-                        prescription.setDoctorName(doctorName);  // Set the doctor name in the prescription
-                        prescriptionList.add(prescription);      // Add prescription after setting the name
-                        updatePrescriptionList(prescriptionList); // Update UI after setting name
-                    } else {
-                        Log.e("DoctorName", "No such document");
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("DoctorName", "Error getting doctor name", e);
-                });
-    }
-
-    private void updatePrescriptionList(List<Prescription> prescriptions) {
-        if (prescriptions != null && !prescriptions.isEmpty()) {
-            Log.d("PrescriptionList", "Number of prescriptions fetched: " + prescriptions.size());
-            for (Prescription prescription : prescriptions) {
-                Log.d("PrescriptionItem", "Prescription URL: " + prescription.getPrescriptionUrl());
-            }
-        } else {
-            Log.d("PrescriptionList", "No prescriptions found.");
-        }
-
-        PrescriptionAdapter adapter = new PrescriptionAdapter(prescriptions, this);
-        prescriptionsRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-
-    private void onPrescriptionDownload(Prescription prescription) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(prescription.getPrescriptionUrl());
-
-        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        }).addOnFailureListener(e -> {
-            Log.e("Download", "Failed to download prescription", e);
-        });
     }
 
     private void fetchDocuments() {
@@ -205,51 +172,19 @@ public class MedicalRecordsActivity extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<Document> documentList = new ArrayList<>();
+                        documentList.clear();
                         for (DocumentSnapshot documentSnapshot : task.getResult()) {
                             Document document = documentSnapshot.toObject(Document.class);
                             if (document != null) {
-                                document.setId(documentSnapshot.getId()); // Set the document ID for deletion
-                                document.setFileUrl(document.getFileUrl());
+                                document.setId(documentSnapshot.getId());
                                 documentList.add(document);
                             }
-
                         }
                         documentAdapter.notifyDataSetChanged();
-                        updateDocumentList(documentList);
                     } else {
                         Log.e("Documents", "Error getting documents", task.getException());
                     }
                 });
-    }
-
-    private void updateDocumentList(List<Document> documents) {
-        DocumentAdapter adapter = new DocumentAdapter(documents, this);
-        documentsRecyclerView.setAdapter(adapter);
-    }
-
-    private void onDocumentDownload(Document document) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(document.getFileUrl());
-
-        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        }).addOnFailureListener(e -> {
-            Log.e("Download", "Failed to download document", e);
-        });
-    }
-    public void viewDocument(String url) {
-        if (url != null && !url.isEmpty()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.parse(url), "application/pdf"); // MIME type is for PDF
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Invalid document URL", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void uploadDocument(Uri fileUri, String documentType) {
@@ -259,39 +194,30 @@ public class MedicalRecordsActivity extends AppCompatActivity {
             StorageReference storageRef = storage.getReference().child("documents/" + System.currentTimeMillis() + ".pdf");
 
             storageRef.putFile(fileUri)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            saveDocumentMetadata(uri.toString(), documentType, fileName);
-                            Toast.makeText(this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-                        }).addOnFailureListener(e -> {
-                            Log.e("Upload", "Failed to retrieve download URL", e);
-                        });
-                    })
+                    .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        saveDocumentMetadata(uri.toString(), documentType, fileName);
+                        Toast.makeText(this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
+                    }))
                     .addOnFailureListener(e -> {
                         Log.e("Upload", "Failed to upload document", e);
-                        Toast.makeText(this, "Failed to upload document", Toast.LENGTH_SHORT).show();  // Notify user of failure.
+                        Toast.makeText(this, "Failed to upload document", Toast.LENGTH_SHORT).show();
                     });
-
         }
     }
+
     @SuppressLint("Range")
     private String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
-            } finally {
-                cursor.close();
             }
         }
-        if (result == null) {
-            result = uri.getLastPathSegment();
-        }
-        return result;
+        return result == null ? uri.getLastPathSegment() : result;
     }
+
     private void saveDocumentMetadata(String fileUrl, String documentType, String fileName) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> documentData = new HashMap<>();
@@ -302,12 +228,7 @@ public class MedicalRecordsActivity extends AppCompatActivity {
         documentData.put("uploadDate", new Date());
 
         db.collection("documents").add(documentData)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Document uploaded successfully", Toast.LENGTH_SHORT).show();
-
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Firestore", "Failed to save document metadata", e);
-                });
+                .addOnSuccessListener(documentReference -> Log.d("Firestore", "Document metadata saved."))
+                .addOnFailureListener(e -> Log.e("Firestore", "Failed to save document metadata", e));
     }
 }

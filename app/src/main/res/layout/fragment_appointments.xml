@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,34 +9,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <CalendarView
-                android:id="@+id/calendarView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp" />
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/appointmentText"
+                    style="@style/Widget.Material3.MaterialTimePicker.Display.HelperText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:text="@string/appointments"
+                    android:textSize="22dp"
+                    android:textStyle="bold|italic"
+                    tools:ignore="RtlSymmetry,TextSizeCheck" />
+
+                <Button
+                    android:id="@+id/selectDateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="#1F0273"
+                    android:backgroundTintMode="multiply"
+                    android:text="Select Date"
+                    android:textColor="#FAF8F8"
+                    android:textColorHighlight="#70FAF7F7"
+                    android:textColorLink="#FAF7F7"
+                    app:icon="@drawable/expand_icon"
+                    app:iconSize="10dp"
+                    app:iconTint="#FFFFFF" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/noAppointmentsText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="No appointments available"
                 android:textAlignment="center"
-                android:visibility="gone"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/booked_appointments"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_margin="8dp" />
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/appointmentsRecyclerView"

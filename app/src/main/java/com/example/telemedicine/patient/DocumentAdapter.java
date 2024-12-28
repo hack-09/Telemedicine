@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.telemedicine.R;
 import com.example.telemedicine.models.Document;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -96,19 +97,48 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
                 .setTitle("Delete Document")
                 .setMessage("Are you sure you want to delete this document?")
                 .setPositiveButton("Yes", (dialog, which) -> {
+                    // Get document reference from Firestore
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection("documents").document(documentId)
-                            .delete()
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(context, "Document deleted successfully", Toast.LENGTH_SHORT).show();
-                                documents.removeIf(doc -> doc.getId().equals(documentId));
-                                notifyDataSetChanged();
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    // Get the file URL (or file name) from the document
+                                    String fileUrl = documentSnapshot.getString("fileUrl");
+
+                                    // Delete the file from Firebase Storage
+                                    if (fileUrl != null && !fileUrl.isEmpty()) {
+                                        FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl)
+                                                .delete()
+                                                .addOnSuccessListener(aVoid -> {
+                                                    // Delete the document from Firestore
+                                                    db.collection("documents").document(documentId)
+                                                            .delete()
+                                                            .addOnSuccessListener(aVoid2 -> {
+                                                                Toast.makeText(context, "Document deleted successfully", Toast.LENGTH_SHORT).show();
+                                                                documents.removeIf(doc -> doc.getId().equals(documentId));
+                                                                notifyDataSetChanged();
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                Toast.makeText(context, "Failed to delete document from Firestore", Toast.LENGTH_SHORT).show();
+                                                            });
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(context, "Failed to delete document from Firebase Storage", Toast.LENGTH_SHORT).show();
+                                                });
+                                    } else {
+                                        Toast.makeText(context, "Invalid file URL", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(context, "Document not found", Toast.LENGTH_SHORT).show();
+                                }
                             })
                             .addOnFailureListener(e -> {
-                                Toast.makeText(context, "Failed to delete document", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Failed to get document details", Toast.LENGTH_SHORT).show();
                             });
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
 }

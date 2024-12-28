@@ -1,12 +1,16 @@
 package com.example.telemedicine.patient;
 
+import static com.dropbox.core.json.JsonWriter.formatDate;
+
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,17 +34,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AppointmentsFragment extends Fragment implements AppointmentsAdapter.OnAppointmentActionListener {
 
-    private CalendarView calendarView;
+    private Button selectDateButton;
     private RecyclerView appointmentsRecyclerView;
     private TextView noAppointmentsText;
     private List<Appointment> appointmentList;
+    private AppointmentsAdapter appointmentsAdapter;
     private String userId;
+    private String selectedDate;
 
     @Nullable
     @Override
@@ -49,58 +56,93 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        calendarView = view.findViewById(R.id.calendarView);
+        selectDateButton = view.findViewById(R.id.selectDateButton);
         appointmentsRecyclerView = view.findViewById(R.id.appointmentsRecyclerView);
         noAppointmentsText = view.findViewById(R.id.noAppointmentsText);
 
-        // Set up RecyclerViews
+        // Set up RecyclerView
         appointmentsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        appointmentList = new ArrayList<>();
+        appointmentsAdapter = new AppointmentsAdapter(getContext(), appointmentList, this);
+        appointmentsRecyclerView.setAdapter(appointmentsAdapter);
 
-        setupAppointmentsList();
-        setupCalendar();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        selectedDate = formatDate(year, month, dayOfMonth);
+
+        // Update button to show current date
+        selectDateButton.setText(selectedDate);
+
+        // Fetch appointments for current date
+        fetchAppointmentsForDate(selectedDate);
+
+        setupDateSelection();
 
         return view;
     }
 
-    private void setupAppointmentsList() {
-        appointmentList = new ArrayList<>();
-        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointmentList, this);
-        appointmentsRecyclerView.setAdapter(appointmentsAdapter);
-
-        fetchAppointmentsFromFirebase(appointments -> {
-            if (appointments.isEmpty()) {
-                noAppointmentsText.setVisibility(View.VISIBLE);
-                appointmentsRecyclerView.setVisibility(View.GONE);
-            } else {
-                noAppointmentsText.setVisibility(View.GONE);
-                appointmentsRecyclerView.setVisibility(View.VISIBLE);
-
-                appointmentList.clear();
-                appointmentList.addAll(appointments);
-                appointmentsAdapter.notifyDataSetChanged();
-            }
-        });
+    private void setupDateSelection() {
+        selectDateButton.setOnClickListener(v -> showDatePickerDialog());
     }
 
-    private void fetchAppointmentsFromFirebase(OnAppointmentsFetchedListener listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference appointmentsRef = db.collection("appointments");
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        appointmentsRef.whereEqualTo("patientId", userId)
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    selectedDate = formatDate(selectedYear, selectedMonth, selectedDay);
+                    selectDateButton.setText(selectedDate); // Update button text
+                    fetchAppointmentsForDate(selectedDate); // Fetch appointments
+                },
+                year, month, dayOfMonth
+        );
+        datePickerDialog.show();
+    }
+
+    private String formatDate(int year, int month, int dayOfMonth) {
+        month++;
+        return String.format("%04d-%02d-%02d", year, month, dayOfMonth);
+    }
+
+    private void fetchAppointmentsForDate(String date) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("appointments")
+                .whereEqualTo("patientId", userId)
+                .whereEqualTo("slotDate", date)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<Appointment> appointments = new ArrayList<>();
+                        List<Appointment> filteredAppointments = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Appointment appointment = document.toObject(Appointment.class);
-                            appointment.setAppointmentId(document.getId()); // Set the document ID as the appointment ID
-                            appointments.add(appointment);
+                            appointment.setAppointmentId(document.getId());
+                            filteredAppointments.add(appointment);
                         }
-                        listener.onAppointmentsFetched(appointments);
+                        updateAppointmentsList(filteredAppointments);
                     } else {
-                        Log.w("Firestore", "Error getting documents.", task.getException());
+                        Log.w("Firestore", "Error fetching appointments.", task.getException());
+                        Toast.makeText(getActivity(), "Error fetching appointments.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void updateAppointmentsList(List<Appointment> appointments) {
+        appointmentList.clear();
+        if (appointments.isEmpty()) {
+            noAppointmentsText.setVisibility(View.VISIBLE);
+            appointmentsRecyclerView.setVisibility(View.GONE);
+        } else {
+            noAppointmentsText.setVisibility(View.GONE);
+            appointmentsRecyclerView.setVisibility(View.VISIBLE);
+            appointmentList.addAll(appointments);
+        }
+        appointmentsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -115,50 +157,32 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
 
     @Override
     public void onJoinConsultation(Appointment appointment) {
-        // Fetch appointment details, then start the meeting
         fetchAppointmentDetails(appointment.getAppointmentId());
     }
+
     private void fetchAppointmentDetails(String appointmentId) {
-        if (appointmentId == null || appointmentId.isEmpty()) {
-            Log.e("DoctorAppointments", "Appointment ID is null or empty!");
-            return;
-        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("appointments").document(appointmentId).get()
+        db.collection("appointments")
+                .document(appointmentId)
+                .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // Retrieve necessary information
                         String doctorId = documentSnapshot.getString("doctorId");
                         String patientId = documentSnapshot.getString("patientId");
-
-                        // Ensure the current user is either the patient or the doctor
                         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
                         if (currentUserId.equals(doctorId) || currentUserId.equals(patientId)) {
-                            // Start the consultation using the appointment ID as the room ID
                             JitsiUtils.startJitsiMeeting(getContext(), appointmentId);
                         } else {
-                            Toast.makeText(getContext(), "You do not have permission to join this consultation.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Permission denied for this consultation.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getContext(), "Appointment not found.", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error fetching appointment details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to fetch appointment details.", Toast.LENGTH_SHORT).show();
                 });
-    }
-
-
-
-    interface OnAppointmentsFetchedListener {
-        void onAppointmentsFetched(List<Appointment> appointments);
-    }
-
-    private void setupCalendar() {
-        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            List<Appointment> appointments = getAppointmentsForDate(year, month, dayOfMonth);
-            updateAppointmentsList(appointments);
-        });
     }
 
     private List<Appointment> getAppointmentsForDate(int year, int month, int dayOfMonth) {
@@ -202,34 +226,26 @@ public class AppointmentsFragment extends Fragment implements AppointmentsAdapte
     }
 
     private void cancelAppointment(Appointment appointment) {
-        // Create a confirmation dialog
         new AlertDialog.Builder(getActivity())
                 .setTitle("Confirm Cancellation")
                 .setMessage("Are you sure you want to cancel your appointment with " + appointment.getDoctorName() + " at " + appointment.getSlotTime() + "?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    // Proceed with cancellation if user confirms
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection("appointments")
                             .document(appointment.getAppointmentId())
                             .delete()
                             .addOnSuccessListener(aVoid -> {
-                                // Update slot status if needed, show success message
-                                updateSlotStatus(appointment.getDoctorId(), appointment.getSlotTime(), false);
                                 Toast.makeText(getActivity(), "Appointment canceled.", Toast.LENGTH_SHORT).show();
+                                fetchAppointmentsForDate(selectedDate);
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(getActivity(), "Failed to cancel appointment.", Toast.LENGTH_SHORT).show();
                             });
                 })
                 .setNegativeButton("No", (dialog, which) -> {
-                    // Dismiss the dialog if the user cancels
                     dialog.dismiss();
                 })
                 .show();
     }
 
-    private void updateAppointmentsList(List<Appointment> appointments) {
-        AppointmentsAdapter appointmentsAdapter = new AppointmentsAdapter(getContext(), appointments, this);
-        appointmentsRecyclerView.setAdapter(appointmentsAdapter);
-    }
 }

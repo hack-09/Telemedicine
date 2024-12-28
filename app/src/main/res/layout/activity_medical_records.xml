@@ -1,90 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".patient.MedicalRecordsActivity">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="Medical Records"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:ignore="MissingConstraints" />
-
-    <!-- Prescription Layout -->
+    <!-- Prescriptions Layout -->
     <LinearLayout
         android:id="@+id/prescriptionLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:layout_marginBottom="60dp"> <!-- Margin to keep space for BottomNavigationView -->
-
-        <TextView
-            android:id="@+id/prescriptionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prescriptions"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_margin="16dp" />
+        android:padding="20dp"
+        android:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/prescriptionsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize"
+            android:clipToPadding="false" />
     </LinearLayout>
 
     <!-- Documents Layout -->
     <LinearLayout
         android:id="@+id/documentsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="20dp"
         android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:layout_marginBottom="60dp">
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/documentsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Documents"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_margin="16dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/documentsRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:scrollbars="vertical" />
-
-        <!-- Document Upload Button (Patient only) -->
         <Button
             android:id="@+id/uploadDocumentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload Document"
-            android:layout_gravity="center" />
+            android:layout_marginBottom="20dp"
+            android:text="Upload Document" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/documentsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize"
+            android:clipToPadding="false" />
     </LinearLayout>
 
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/medical_bottom_navigation_menu"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:menu="@menu/medical_bottom_navigation_menu" />
+</RelativeLayout>

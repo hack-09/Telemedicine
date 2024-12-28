@@ -143,7 +143,6 @@ public class DoctorRecordsActivity extends AppCompatActivity {
 
     private void fetchPatientDocuments() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Toast.makeText(this, "Id-"+patientId, Toast.LENGTH_SHORT).show();
         db.collection("documents")
                 .whereEqualTo("patientId", patientId)
                 .get()
