@@ -28,7 +28,7 @@ Empower patients and doctors to connect seamlessly for virtual consultations, ap
 
 | Login & Registration | Patient & Doctor Profiles | Navigation & Documents |  
 |-----------------------|---------------------------|-------------------------|  
-| <img src="assets/login.png" width="200"> <img src="assets/register.png" width="200"> | <img src="assets/patient_profile.png" width="200"> <img src="assets/doctor_profile.png" width="200"> | <img src="assets/navigation_menu.png" width="200"> <img src="assets/documents.png" width="200"> |  
+| <img src="assets/login.png" > <img src="assets/register.png" width="200"> | <img src="assets/patient_profile.png" width="200"> <img src="assets/doctor_profile.png" width="200"> | <img src="assets/navigation_menu.png" width="200"> <img src="assets/documents.png" width="200"> |  
 
 | Prescriptions & Appointments | Settings & Support |  
 |-------------------------------|---------------------|  
