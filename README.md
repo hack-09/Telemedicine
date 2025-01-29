@@ -28,11 +28,11 @@ Empower patients and doctors to connect seamlessly for virtual consultations, ap
 
 | Login & Registration | Patient & Doctor Profiles | Navigation & Documents |  
 |-----------------------|---------------------------|-------------------------|  
-| <img src="assets/login.png" > <img src="assets/register.png" width="200"> | <img src="assets/patient_profile.png" width="200"> <img src="assets/doctor_profile.png" width="200"> | <img src="assets/navigation_menu.png" width="200"> <img src="assets/documents.png" width="200"> |  
+| <img src="assets/login.png" width="300"> <img src="assets/register.png" width="300"> | <img src="assets/patient_profile.png" width="300"> <img src="assets/doctor_profile.png" width="300"> | <img src="assets/navigation_menu.png" width="300"> <img src="assets/documents.png" width="300"> |  
 
 | Prescriptions & Appointments | Settings & Support |  
 |-------------------------------|---------------------|  
-| <img src="assets/prescription.png" width="200"> <img src="assets/appointmentManage.png" width="200"> | <img src="assets/settings.png" width="200"> <img src="assets/help_support.png" width="200"> |  
+| <img src="assets/prescription.png" width="300" margin="auto"> <img src="assets/appointmentManage.png" width="300" margin="auto"> | <img src="assets/settings.png" width="300" margin="auto"> <img src="assets/help_support.png" width="300" margin="auto"> |  
 
 ---
 
