@@ -48,7 +48,11 @@ Empower patients and doctors to connect seamlessly for virtual consultations, ap
 - **Libraries:**  
   ![Retrofit](https://img.shields.io/badge/Retrofit-4A154B?logo=retrofit&logoColor=white)  
   ![Glide](https://img.shields.io/badge/Glide-4A154B?logo=glide&logoColor=white)  
-  ![Room Database](https://img.shields.io/badge/Room_SQLite-003B57?logo=sqlite&logoColor=white)  
+  ![Room Database](https://img.shields.io/badge/Room_SQLite-003B57?logo=sqlite&logoColor=white)
+
+- **Tools:** 
+  ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white) 
+  ![Selenium](https://img.shields.io/badge/Selenium-43B02A?style=flat-square&logo=selenium&logoColor=white)
 
 ---
 
